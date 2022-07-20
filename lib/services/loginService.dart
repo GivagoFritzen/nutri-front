@@ -1,6 +1,7 @@
 import 'package:chopper/chopper.dart';
 import 'package:nutri/utils/appSettings.dart';
 
+import '../converter/jsonSerializableConverter.dart';
 import '../models/login/loginNutricionistaViewModel.dart';
 import '../models/login/loginTokenViewModel.dart';
 
@@ -19,12 +20,16 @@ abstract class LoginService extends ChopperService {
   );
 
   static LoginService create() {
+    const converter = JsonSerializableConverter({
+      LoginTokenViewModel: LoginTokenViewModel.fromJsonFactory,
+    });
+
     final client = ChopperClient(
       baseUrl: appSettings.baseUrl,
       services: [
         _$LoginService(),
       ],
-      converter: JsonConverter(),
+      converter: converter,
       interceptors: [
         HttpLoggingInterceptor(),
       ],

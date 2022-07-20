@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:nutri/models/erros/errorViewModel.dart';
+import 'package:nutri/services/erroService.dart';
 import 'package:provider/provider.dart';
 
 import '../components/alert.dart';
 import '../models/login/loginNutricionistaViewModel.dart';
-import '../models/login/loginTokenViewModel.dart';
 import '../services/loginService.dart';
 import '../utils/colors.dart';
 
@@ -57,17 +60,15 @@ class _LoginPageState extends State<LoginPage> {
             );
           } else {
             final viewModel = LoginNutricionistaViewModel(
-              Email: _controllerEmail.text,
-              Senha: _controllerSenha.text,
+              email: _controllerEmail.text,
+              senha: _controllerSenha.text,
             );
 
             final response =
                 await Provider.of<LoginService>(context, listen: false)
                     .login(viewModel);
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              Alert.message(response.toString()),
-            );
+            ErrorService.alertErrors(context, response.error);
           }
         },
         child: const Text('Logar'),

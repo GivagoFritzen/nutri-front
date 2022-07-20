@@ -1,11 +1,28 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'dart:convert';
 
-@JsonSerializable()
+LoginNutricionistaViewModel loginNutricionistaViewModelFromJson(String str) =>
+    LoginNutricionistaViewModel.fromJson(json.decode(str));
+
+String loginNutricionistaViewModelToJson(LoginNutricionistaViewModel data) =>
+    json.encode(data.toJson());
+
 class LoginNutricionistaViewModel {
-  final String Email, Senha;
-
   LoginNutricionistaViewModel({
-    required this.Email,
-    required this.Senha,
+    required this.email,
+    required this.senha,
   });
+
+  String email;
+  String senha;
+
+  factory LoginNutricionistaViewModel.fromJson(Map<String, dynamic> json) =>
+      LoginNutricionistaViewModel(
+        email: json["email"],
+        senha: json["senha"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "email": email,
+        "senha": senha,
+      };
 }
