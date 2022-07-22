@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:nutri/services/localStorageService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:nutri/pages/homePage.dart';
@@ -25,9 +26,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (_) => LoginService.create(),
-      dispose: (_, LoginService service) => service.client.dispose(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LocalStorageService()),
+        Provider(
+          create: (context) => LoginService.create(),
+          dispose: (context, LoginService service) => service.client.dispose(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

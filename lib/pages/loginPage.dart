@@ -1,9 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:nutri/models/erros/errorViewModel.dart';
+import 'package:nutri/models/login/loginTokenViewModel.dart';
 import 'package:nutri/services/erroService.dart';
+import 'package:nutri/services/localStorageService.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/alert.dart';
 import '../models/login/loginNutricionistaViewModel.dart';
@@ -19,9 +19,41 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  late LoginService loginService;
+  late LocalStorageService localStorageService;
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerSenha = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    loginService = Provider.of<LoginService>(context, listen: false);
+    localStorageService =
+        Provider.of<LocalStorageService>(context, listen: false);
+  }
+
+  _logar() async {
+    if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        Alert.message("emailText"),
+      );
+    } else {
+      final viewModel = LoginNutricionistaViewModel(
+        email: _controllerEmail.text,
+        senha: _controllerSenha.text,
+      );
+
+      var response = await loginService.login(viewModel);
+
+      if (!ErrorService.alertErrors(context, response.error)) {
+        localStorageService.setString('token', response.body!.token);
+        localStorageService.setString(
+            'refreshToken', response.body!.refreshToken);
+      }
+    }
+  }
 
   Widget formField(String textoVazio, TextEditingController textController) {
     return TextFormField(
@@ -53,24 +85,7 @@ class _LoginPageState extends State<LoginPage> {
               MaterialStateProperty.all<Color>(Colors.deepPurpleAccent),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white70),
         ),
-        onPressed: () async {
-          if (!_formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              Alert.message("emailText"),
-            );
-          } else {
-            final viewModel = LoginNutricionistaViewModel(
-              email: _controllerEmail.text,
-              senha: _controllerSenha.text,
-            );
-
-            final response =
-                await Provider.of<LoginService>(context, listen: false)
-                    .login(viewModel);
-
-            ErrorService.alertErrors(context, response.error);
-          }
-        },
+        onPressed: _logar,
         child: const Text('Logar'),
       ),
     );
