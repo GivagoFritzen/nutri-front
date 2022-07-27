@@ -30,7 +30,7 @@ class _$LoginService extends LoginService {
       LoginTokenViewModel loginToken) {
     final $url = 'Login';
     final $body = loginToken;
-    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    final $request = Request('PATCH', $url, client.baseUrl, body: $body);
     return client.send<LoginTokenViewModel, LoginTokenViewModel>($request);
   }
 }

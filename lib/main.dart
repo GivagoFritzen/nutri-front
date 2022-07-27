@@ -1,11 +1,13 @@
 import 'dart:io';
 
-import 'package:nutri/services/localStorageService.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:nutri/pages/homePage.dart';
 import 'package:nutri/pages/loginPage.dart';
+import 'package:nutri/pages/perfilPage.dart';
+import 'package:nutri/services/localStorageService.dart';
 import 'package:nutri/services/loginService.dart';
+import 'package:nutri/services/nutricionistaService.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
@@ -33,15 +35,21 @@ class MyApp extends StatelessWidget {
           create: (context) => LoginService.create(),
           dispose: (context, LoginService service) => service.client.dispose(),
         ),
+        Provider(
+          create: (context) => NutricionistaService.create(),
+          dispose: (context, NutricionistaService service) =>
+              service.client.dispose(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LoginPage(),
+        home: const PerfilPage(),
         routes: {
           '/home': (context) => const HomePage(),
+          '/nutri': (context) => const PerfilPage(),
           '/login': (context) => const LoginPage()
         },
       ),

@@ -7,6 +7,8 @@ class LocalStorageService extends ChangeNotifier {
   Map<String, String> local = {
     "token": "",
     "refreshToken": "",
+    "name": "teste",
+    "id": ""
   };
 
   LocalStorageService() {
@@ -15,19 +17,20 @@ class LocalStorageService extends ChangeNotifier {
 
   Future<void> _startPreferences() async {
     prefs = await SharedPreferences.getInstance();
-    await _readLocale();
-  }
-
-  _readLocale() {
-    local = {
-      "token": prefs.getString("token") ?? "",
-      "refreshToken": prefs.getString("refreshToken") ?? "",
-    };
-    notifyListeners();
+    await readLocale();
   }
 
   setString(String name, String value) async {
     await prefs.setString(name, value);
-    await _readLocale();
+  }
+
+  readLocale() async {
+    local = {
+      "token": prefs.getString("token") ?? "",
+      "refreshToken": prefs.getString("refreshToken") ?? "",
+      "name": prefs.getString("name") ?? "teste",
+      "id": prefs.getString("id") ?? "",
+    };
+    notifyListeners();
   }
 }

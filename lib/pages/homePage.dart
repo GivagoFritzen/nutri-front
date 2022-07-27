@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           TopBar(),
-          LeftBar(),
+          //LeftBar(),
         ],
       ),
     );

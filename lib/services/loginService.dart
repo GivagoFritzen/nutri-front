@@ -1,9 +1,8 @@
 import 'package:chopper/chopper.dart';
+import 'package:nutri/converter/jsonSerializableConverter.dart';
+import 'package:nutri/models/login/loginNutricionistaViewModel.dart';
+import 'package:nutri/models/login/loginTokenViewModel.dart';
 import 'package:nutri/utils/appSettings.dart';
-
-import '../converter/jsonSerializableConverter.dart';
-import '../models/login/loginNutricionistaViewModel.dart';
-import '../models/login/loginTokenViewModel.dart';
 
 part 'loginService.chopper.dart';
 
@@ -14,7 +13,7 @@ abstract class LoginService extends ChopperService {
     @Body() LoginNutricionistaViewModel login,
   );
 
-  @Post()
+  @Patch()
   Future<Response<LoginTokenViewModel>> refreshToken(
     @Body() LoginTokenViewModel loginToken,
   );

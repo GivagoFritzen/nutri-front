@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:nutri/services/localStorageService.dart';
 import 'package:nutri/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class TopBar extends StatefulWidget {
   const TopBar({Key? key}) : super(key: key);
+
+  static double GetHeightSize() {
+    return 65;
+  }
 
   @override
   _TopBarState createState() => _TopBarState();
@@ -34,12 +40,13 @@ class _TopBarState extends State<TopBar> {
   PreferredSizeWidget build(BuildContext context) {
     return AppBar(
       backgroundColor: ColorUtil.green,
+      toolbarHeight: TopBar.GetHeightSize(),
       title: Row(children: [
         const Text("Logo"),
         Expanded(
           child: _searchBar(),
         ),
-        const Text("Nome do Usuário")
+        Text(context.watch<LocalStorageService>().local['name'] as String)
       ]),
       automaticallyImplyLeading: false,
     );
@@ -60,6 +67,7 @@ class _TopBarState extends State<TopBar> {
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.white.withOpacity(0.3),
       ),
+      margin: const EdgeInsets.fromLTRB(50, 0, 50, 0),
       child: TextField(
         controller: _filter,
         cursorColor: Colors.white,
@@ -76,7 +84,6 @@ class _TopBarState extends State<TopBar> {
           ),
         ),
       ),
-      margin: const EdgeInsets.fromLTRB(50, 0, 50, 0),
     );
   }
 }

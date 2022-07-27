@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nutri/models/login/loginTokenViewModel.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nutri/services/erroService.dart';
 import 'package:nutri/services/localStorageService.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/alert.dart';
 import '../models/login/loginNutricionistaViewModel.dart';
@@ -51,14 +50,22 @@ class _LoginPageState extends State<LoginPage> {
         localStorageService.setString('token', response.body!.token);
         localStorageService.setString(
             'refreshToken', response.body!.refreshToken);
+
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(response.body!.token);
+        localStorageService.setString('name', decodedToken["unique_name"]);
+        localStorageService.setString('id', decodedToken["primarysid"]);
+
+        localStorageService.readLocale();
       }
     }
   }
 
-  Widget formField(String textoVazio, TextEditingController textController) {
+  Widget formField(
+      String textoVazio, TextEditingController textController, bool obscure) {
     return TextFormField(
       controller: textController,
       cursorColor: Colors.black,
+      obscureText: obscure,
       decoration: InputDecoration(
         hintText: textoVazio,
         focusedBorder: const UnderlineInputBorder(
@@ -113,8 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    formField("Email", _controllerEmail),
-                    formField("Senha", _controllerSenha),
+                    formField("Email", _controllerEmail, false),
+                    formField("Senha", _controllerSenha, true),
                     formButton(),
                   ],
                 ),
