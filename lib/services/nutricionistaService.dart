@@ -1,11 +1,11 @@
 import 'package:chopper/chopper.dart';
+import 'package:nutri/converter/jsonSerializableConverter.dart';
 import 'package:nutri/models/nutricionista/nutricionistaAdicionarViewModel.dart';
 import 'package:nutri/models/nutricionista/nutricionistaAtualizarViewModel.dart';
 import 'package:nutri/models/nutricionista/nutricionistaDesvincularOuVincularViewModel.dart';
-import 'package:nutri/utils/appSettings.dart';
-import 'package:nutri/converter/jsonSerializableConverter.dart';
 import 'package:nutri/models/nutricionista/nutricionistaViewModel.dart';
 import 'package:nutri/models/paciente/pacienteSimplificadoViewModel.dart';
+import 'package:nutri/utils/appSettings.dart';
 
 part 'nutricionistaService.chopper.dart';
 
@@ -13,38 +13,49 @@ part 'nutricionistaService.chopper.dart';
 abstract class NutricionistaService extends ChopperService {
   @Get(path: '/{id}')
   Future<Response<NutricionistaViewModel>> getById(
-      {@Query() required String id});
+      {@Path() required String id,
+      @Header("Authorization") required String token});
 
   @Get(path: '/GetAll')
-  Future<Response<List<NutricionistaViewModel>>> getAll();
+  Future<Response<List<NutricionistaViewModel>>> getAll(
+      {@Header("Authorization") required String token});
 
   @Get(path: '/GetPacientes')
   Future<Response<List<PacienteSimplificadoViewModel>>> getPacientes(
-      {@Query() required String id});
+      {@Query() required String id,
+      @Header("Authorization") required String token});
 
   @Delete(path: '/{id}')
-  Future<void> delete({@Query() required String id});
+  Future<void> delete(
+      {@Query() required String id,
+      @Header("Authorization") required String token});
 
   @Post()
-  Future<Response<NutricionistaAdicionarViewModel>> adicionar(
-    @Body() NutricionistaAdicionarViewModel nutricionistaAdicionarViewModel,
-  );
+  Future<Response<NutricionistaAdicionarViewModel>> adicionar({
+    @Header("Authorization") required String token,
+    @Body() required NutricionistaAdicionarViewModel nutricionistaAdicionarViewModel,
+  });
 
   @Put()
   Future<Response<NutricionistaAtualizarViewModel>> atualizar(
-    @Body() NutricionistaAtualizarViewModel nutricionistaAtualizarViewModel,
-  );
+      {@Header("Authorization")
+          required String token,
+      @Body()
+          required NutricionistaAtualizarViewModel
+              nutricionistaAtualizarViewModel});
 
   @Patch(path: '/VincularPaciente')
-  Future<Response<NutricionistaDesvincularOuVincularViewModel>> vincular(
-    @Body()
+  Future<Response<NutricionistaDesvincularOuVincularViewModel>> vincular({
+    @Header("Authorization") required String token,
+    @Body() required
         NutricionistaDesvincularOuVincularViewModel
             nutricionistaDesvincularOuVincularViewModel,
-  );
+  });
 
   @Patch(path: '/DesvincularPaciente')
   Future<Response<NutricionistaDesvincularOuVincularViewModel>> desvincular(
-      {@Query() required String pacienteId});
+      {@Header("Authorization") required String token,
+      @Query() required String paciente});
 
   static NutricionistaService create() {
     const converter = JsonSerializableConverter({
@@ -67,6 +78,7 @@ abstract class NutricionistaService extends ChopperService {
       converter: converter,
       interceptors: [
         HttpLoggingInterceptor(),
+        CurlInterceptor(),
       ],
     );
     return _$NutricionistaService(client);

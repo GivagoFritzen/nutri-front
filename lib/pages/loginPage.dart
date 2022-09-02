@@ -33,6 +33,14 @@ class _LoginPageState extends State<LoginPage> {
         Provider.of<LocalStorageService>(context, listen: false);
   }
 
+  @override
+  void dispose() {
+    _controllerEmail.dispose();
+    _controllerSenha.dispose();
+
+    super.dispose();
+  }
+
   _logar() async {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(

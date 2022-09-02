@@ -180,7 +180,7 @@ class _PerfilPageState extends State<PerfilPage> {
         Row(
           children: [
             selectGenre(),
-            SizedBox(),
+            const SizedBox(),
           ],
         ),
         updateButton(),
@@ -188,35 +188,35 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Widget getHome(BuildContext context) {
-    return Stack(clipBehavior: Clip.none, children: [
-      Column(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        clipBehavior: Clip.none,
         children: [
-          TopBar(),
-          Container(
-            height: MediaQuery.of(context).size.height - TopBar.GetHeightSize(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                LeftBar(),
-                Container(
-                  color: Colors.white24,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * .5,
-                    child: userConfig(),
-                  ),
+          Column(
+            children: [
+              TopBar(),
+              Container(
+                height:
+                    MediaQuery.of(context).size.height - TopBar.GetHeightSize(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const LeftBar(),
+                    Container(
+                      color: Colors.white24,
+                      width: MediaQuery.of(context).size.width * .5,
+                      child: userConfig(),
+                    ),
+                    const SizedBox()
+                  ],
                 ),
-                SizedBox()
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
-    ]);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: getHome(context));
+    );
   }
 }

@@ -1,42 +1,28 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:nutri/models/circuferencia/circunferenciaViewModel.dart';
 
+part 'medidaViewModel.g.dart';
+
+@JsonSerializable()
 class MedidaViewModel {
+  String? id;
   String? descricao;
   String? data;
-  int? pesoAtual;
-  int? pesoIdeal;
-  int? altura;
+  double? pesoAtual;
+  double? pesoIdeal;
+  double? altura;
   CircunferenciaViewModel? circunferencia;
 
   MedidaViewModel(
-      {this.descricao,
+      {this.id,
+      this.descricao,
       this.data,
       this.pesoAtual,
       this.pesoIdeal,
       this.altura,
       this.circunferencia});
 
-  MedidaViewModel.fromJson(Map<String, dynamic> json) {
-    descricao = json['descricao'];
-    data = json['data'];
-    pesoAtual = json['pesoAtual'];
-    pesoIdeal = json['pesoIdeal'];
-    altura = json['altura'];
-    circunferencia = json['circunferencia'] != null
-        ? new CircunferenciaViewModel.fromJson(json['circunferencia'])
-        : null;
-  }
+  static const fromJson = _$MedidaViewModelFromJson;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['descricao'] = this.descricao;
-    data['data'] = this.data;
-    data['pesoAtual'] = this.pesoAtual;
-    data['pesoIdeal'] = this.pesoIdeal;
-    data['altura'] = this.altura;
-    if (this.circunferencia != null) {
-      data['circunferencia'] = this.circunferencia!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$MedidaViewModelToJson(this);
 }

@@ -37,8 +37,30 @@ class _TopBarState extends State<TopBar> {
   }
 
   @override
-  PreferredSizeWidget build(BuildContext context) {
-    return AppBar(
+  Widget build(BuildContext context) {
+    return Container(
+      color: ColorUtil.green,
+      height: TopBar.GetHeightSize(),
+      child: Row(
+        children: [
+          const SizedBox(width: 25),
+          const Text(
+            "Logo",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          Expanded(
+            child: _searchBar(),
+          ),
+          Text(
+            context.watch<LocalStorageService>().local['name'] as String,
+            style: const TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          const SizedBox(width: 25),
+        ],
+      ),
+    );
+
+    /*AppBar(
       backgroundColor: ColorUtil.green,
       toolbarHeight: TopBar.GetHeightSize(),
       title: Row(children: [
@@ -50,6 +72,7 @@ class _TopBarState extends State<TopBar> {
       ]),
       automaticallyImplyLeading: false,
     );
+    */
   }
 
   void _searchPressed() {

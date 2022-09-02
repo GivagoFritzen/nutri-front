@@ -1,24 +1,29 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'circunferenciaViewModel.g.dart';
+
+@JsonSerializable()
 class CircunferenciaViewModel {
-  int? bracoRelaxadoDireito;
-  int? bracoRelaxadoEsquerdo;
-  int? bracoContraidoDireito;
-  int? bracoContraidoEsquerdo;
-  int? antebracoDireito;
-  int? antebracoEsquerdo;
-  int? punhoDireito;
-  int? punhoEsquerdo;
-  int? pescoco;
-  int? ombro;
-  int? peitoral;
-  int? cintura;
-  int? abdomen;
-  int? quadril;
-  int? panturrilhaDireita;
-  int? panturrilhaEsquerda;
-  int? coxaDireita;
-  int? coxaEsquerda;
-  int? coxaProximalDireita;
-  int? coxaProximalEsquerda;
+  double? bracoRelaxadoDireito;
+  double? bracoRelaxadoEsquerdo;
+  double? bracoContraidoDireito;
+  double? bracoContraidoEsquerdo;
+  double? antebracoDireito;
+  double? antebracoEsquerdo;
+  double? punhoDireito;
+  double? punhoEsquerdo;
+  double? pescoco;
+  double? ombro;
+  double? peitoral;
+  double? cintura;
+  double? abdomen;
+  double? quadril;
+  double? panturrilhaDireita;
+  double? panturrilhaEsquerda;
+  double? coxaDireita;
+  double? coxaEsquerda;
+  double? coxaProximalDireita;
+  double? coxaProximalEsquerda;
 
   CircunferenciaViewModel(
       {this.bracoRelaxadoDireito,
@@ -42,51 +47,7 @@ class CircunferenciaViewModel {
       this.coxaProximalDireita,
       this.coxaProximalEsquerda});
 
-  CircunferenciaViewModel.fromJson(Map<String, dynamic> json) {
-    bracoRelaxadoDireito = json['bracoRelaxadoDireito'];
-    bracoRelaxadoEsquerdo = json['bracoRelaxadoEsquerdo'];
-    bracoContraidoDireito = json['bracoContraidoDireito'];
-    bracoContraidoEsquerdo = json['bracoContraidoEsquerdo'];
-    antebracoDireito = json['antebracoDireito'];
-    antebracoEsquerdo = json['antebracoEsquerdo'];
-    punhoDireito = json['punhoDireito'];
-    punhoEsquerdo = json['punhoEsquerdo'];
-    pescoco = json['pescoco'];
-    ombro = json['ombro'];
-    peitoral = json['peitoral'];
-    cintura = json['cintura'];
-    abdomen = json['abdomen'];
-    quadril = json['quadril'];
-    panturrilhaDireita = json['panturrilhaDireita'];
-    panturrilhaEsquerda = json['panturrilhaEsquerda'];
-    coxaDireita = json['coxaDireita'];
-    coxaEsquerda = json['coxaEsquerda'];
-    coxaProximalDireita = json['coxaProximalDireita'];
-    coxaProximalEsquerda = json['coxaProximalEsquerda'];
-  }
+  static const fromJson = _$CircunferenciaViewModelFromJson;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['bracoRelaxadoDireito'] = this.bracoRelaxadoDireito;
-    data['bracoRelaxadoEsquerdo'] = this.bracoRelaxadoEsquerdo;
-    data['bracoContraidoDireito'] = this.bracoContraidoDireito;
-    data['bracoContraidoEsquerdo'] = this.bracoContraidoEsquerdo;
-    data['antebracoDireito'] = this.antebracoDireito;
-    data['antebracoEsquerdo'] = this.antebracoEsquerdo;
-    data['punhoDireito'] = this.punhoDireito;
-    data['punhoEsquerdo'] = this.punhoEsquerdo;
-    data['pescoco'] = this.pescoco;
-    data['ombro'] = this.ombro;
-    data['peitoral'] = this.peitoral;
-    data['cintura'] = this.cintura;
-    data['abdomen'] = this.abdomen;
-    data['quadril'] = this.quadril;
-    data['panturrilhaDireita'] = this.panturrilhaDireita;
-    data['panturrilhaEsquerda'] = this.panturrilhaEsquerda;
-    data['coxaDireita'] = this.coxaDireita;
-    data['coxaEsquerda'] = this.coxaEsquerda;
-    data['coxaProximalDireita'] = this.coxaProximalDireita;
-    data['coxaProximalEsquerda'] = this.coxaProximalEsquerda;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$CircunferenciaViewModelToJson(this);
 }

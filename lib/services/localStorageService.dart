@@ -28,7 +28,7 @@ class LocalStorageService extends ChangeNotifier {
     local = {
       "token": prefs.getString("token") ?? "",
       "refreshToken": prefs.getString("refreshToken") ?? "",
-      "name": prefs.getString("name") ?? "teste",
+      "name": prefs.getString("name") ?? "",
       "id": prefs.getString("id") ?? "",
     };
     notifyListeners();
