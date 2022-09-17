@@ -4,6 +4,7 @@ import 'package:nutri/components/numberInputWithIncrementDecrement.dart';
 import 'package:nutri/components/topBar.dart';
 import 'package:nutri/models/circuferencia/circunferenciaViewModel.dart';
 import 'package:nutri/models/medida/medidaAdicionarViewModel.dart';
+import 'package:nutri/models/medida/medidaAtualizarViewModel.dart';
 import 'package:nutri/models/medida/medidaViewModel.dart';
 import 'package:nutri/services/erroService.dart';
 import 'package:nutri/services/localStorageService.dart';
@@ -74,11 +75,11 @@ class _MedidaPageState extends State<MedidaPage> {
     _load();
   }
 
-  void _load() async {
+  Future<void> _load() async {
     var response = await pacienteService.getMedidasById(
-      id: "6b08f77f-e158-41d6-ae4d-0471ca15d8b6",
+      id: "d8ee969d-6bdb-41a3-974f-260878c9013b",
       token:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkdpdmFnbzEyIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiNmNlODY1MjYtNmEyNy00NzAzLWE0YWUtNTBkN2I1MGI4YTdhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjIxMjk2OTksImV4cCI6MTY2MjEzNjgyNSwiaWF0IjoxNjYyMTI5Njk5fQ.aLUuqBK7HPrwARGSsqNl_oMBIxJ4u65WDhsC9JbeM5A",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im51dHJpIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiYjAxMTE3NzgtMGQ0Ny00NGY5LWEzZGYtNDRkNTFlYmNmMThhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjI5MzY2NjYsImV4cCI6MTY2Mjk0MzcyMiwiaWF0IjoxNjYyOTM2NjY2fQ.sWLFDfMyU2VckgDI_1ThptppSwBwsvfvI2MxFlJqy2I",
     );
 
     if (response.error == null) {
@@ -103,162 +104,243 @@ class _MedidaPageState extends State<MedidaPage> {
     );
   }
 
+  MedidaViewModel medidaMapper() {
+    return MedidaViewModel(
+      id: Uuid.NAMESPACE_NIL,
+      descricao: "Medida ${DateTime.now()}",
+      data: DateTime.now().toString(),
+      pesoAtual: double.parse(controllerPesoAtual.text),
+      pesoIdeal: double.parse(controllerPesoIdeal.text),
+      altura: double.parse(controllerAltura.text),
+      circunferencia: CircunferenciaViewModel(
+        bracoRelaxadoDireito: double.parse(controllerBracoRelaxadoDireito.text),
+        bracoRelaxadoEsquerdo:
+            double.parse(controllerBracoRelaxadoEsquerdo.text),
+        bracoContraidoDireito:
+            double.parse(controllerBracoContraidoDireito.text),
+        bracoContraidoEsquerdo:
+            double.parse(controllerBracoContraidoEsquerdo.text),
+        antebracoDireito: double.parse(controllerAntebracoDireito.text),
+        antebracoEsquerdo: double.parse(controllerAntebracoEsquerdo.text),
+        punhoDireito: double.parse(controllerPunhoDireito.text),
+        punhoEsquerdo: double.parse(controllerPunhoEsquerdo.text),
+        pescoco: double.parse(controllerPescoco.text),
+        ombro: double.parse(controllerOmbro.text),
+        peitoral: double.parse(controllerPeitoral.text),
+        cintura: double.parse(controllerCintura.text),
+        abdomen: double.parse(controllerAbdomen.text),
+        quadril: double.parse(controllerQuadril.text),
+        panturrilhaDireita: double.parse(controllerPanturrilhaDireita.text),
+        panturrilhaEsquerda: double.parse(controllerPanturrilhaEsquerda.text),
+        coxaDireita: double.parse(controllerCoxaDireita.text),
+        coxaEsquerda: double.parse(controllerCoxaEsquerda.text),
+        coxaProximalDireita: double.parse(controllerCoxaDireita.text),
+        coxaProximalEsquerda: double.parse(controllerCoxaProximalEsquerda.text),
+      ),
+    );
+  }
+
+  void setControllers({MedidaViewModel? viewModel}) {
+    controllerPesoAtual.text =
+        viewModel == null ? "1.0" : viewModel.pesoAtual.toString();
+    controllerPesoIdeal.text =
+        viewModel == null ? "1.0" : viewModel.pesoIdeal.toString();
+    controllerAltura.text =
+        viewModel == null ? "1.0" : viewModel.altura.toString();
+    controllerBracoRelaxadoDireito.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.bracoRelaxadoDireito.toString();
+    controllerBracoRelaxadoEsquerdo.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.bracoRelaxadoEsquerdo.toString();
+    controllerBracoContraidoDireito.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.bracoContraidoDireito.toString();
+    controllerBracoContraidoEsquerdo.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.bracoContraidoEsquerdo.toString();
+    controllerAntebracoDireito.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.antebracoDireito.toString();
+    controllerAntebracoEsquerdo.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.antebracoEsquerdo.toString();
+    controllerPunhoDireito.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.punhoDireito.toString();
+    controllerPunhoEsquerdo.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.punhoEsquerdo.toString();
+    controllerPescoco.text =
+        viewModel == null ? "1.0" : viewModel.circunferencia!.pescoco.toString();
+    controllerOmbro.text =
+        viewModel == null ? "1.0" : viewModel.circunferencia!.ombro.toString();
+    controllerPeitoral.text =
+        viewModel == null ? "1.0" : viewModel.circunferencia!.peitoral.toString();
+    controllerCintura.text =
+        viewModel == null ? "1.0" : viewModel.circunferencia!.cintura.toString();
+    controllerAbdomen.text =
+        viewModel == null ? "1.0" : viewModel.circunferencia!.abdomen.toString();
+    controllerQuadril.text =
+        viewModel == null ? "1.0" : viewModel.circunferencia!.quadril.toString();
+    controllerPanturrilhaDireita.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.panturrilhaDireita.toString();
+    controllerPanturrilhaEsquerda.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.panturrilhaEsquerda.toString();
+    controllerCoxaDireita.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.coxaDireita.toString();
+    controllerCoxaEsquerda.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.coxaEsquerda.toString();
+    controllerCoxaProximalDireita.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.coxaProximalDireita.toString();
+    controllerCoxaProximalEsquerda.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.coxaProximalEsquerda.toString();
+  }
+
   Future<bool> _adicionarMedida() async {
     var viewModel = MedidaAdicionarViewModel(
-        pacienteId: "6b08f77f-e158-41d6-ae4d-0471ca15d8b6",
-        medida: MedidaViewModel(
-          id: const Uuid().v4(),
-          descricao: "Medida ${DateTime.now()}",
-          data: DateTime.now().toString(),
-          pesoAtual: double.parse(controllerPesoAtual.text),
-          pesoIdeal: double.parse(controllerPesoIdeal.text),
-          altura: double.parse(controllerAltura.text),
-          circunferencia: CircunferenciaViewModel(
-            bracoRelaxadoDireito:
-                double.parse(controllerBracoRelaxadoDireito.text),
-            bracoRelaxadoEsquerdo:
-                double.parse(controllerBracoRelaxadoEsquerdo.text),
-            bracoContraidoDireito:
-                double.parse(controllerBracoContraidoDireito.text),
-            bracoContraidoEsquerdo:
-                double.parse(controllerBracoContraidoEsquerdo.text),
-            antebracoDireito: double.parse(controllerAntebracoDireito.text),
-            antebracoEsquerdo: double.parse(controllerAntebracoEsquerdo.text),
-            punhoDireito: double.parse(controllerPunhoDireito.text),
-            punhoEsquerdo: double.parse(controllerPunhoEsquerdo.text),
-            pescoco: double.parse(controllerPescoco.text),
-            ombro: double.parse(controllerOmbro.text),
-            peitoral: double.parse(controllerPeitoral.text),
-            cintura: double.parse(controllerCintura.text),
-            abdomen: double.parse(controllerAbdomen.text),
-            quadril: double.parse(controllerQuadril.text),
-            panturrilhaDireita: double.parse(controllerPanturrilhaDireita.text),
-            panturrilhaEsquerda:
-                double.parse(controllerPanturrilhaEsquerda.text),
-            coxaDireita: double.parse(controllerCoxaDireita.text),
-            coxaEsquerda: double.parse(controllerCoxaEsquerda.text),
-            coxaProximalDireita: double.parse(controllerCoxaDireita.text),
-            coxaProximalEsquerda:
-                double.parse(controllerCoxaProximalEsquerda.text),
-          ),
-        ));
+        pacienteId: "d8ee969d-6bdb-41a3-974f-260878c9013b",
+        medida: medidaMapper());
 
     var response = await pacienteService.adicionarMedida(
         medidaAdicionarViewModel: viewModel,
         token:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkdpdmFnbzEyIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiNmNlODY1MjYtNmEyNy00NzAzLWE0YWUtNTBkN2I1MGI4YTdhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjIxMjk2OTksImV4cCI6MTY2MjEzNjgyNSwiaWF0IjoxNjYyMTI5Njk5fQ.aLUuqBK7HPrwARGSsqNl_oMBIxJ4u65WDhsC9JbeM5A");
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im51dHJpIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiYjAxMTE3NzgtMGQ0Ny00NGY5LWEzZGYtNDRkNTFlYmNmMThhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjI5MzY2NjYsImV4cCI6MTY2Mjk0MzcyMiwiaWF0IjoxNjYyOTM2NjY2fQ.sWLFDfMyU2VckgDI_1ThptppSwBwsvfvI2MxFlJqy2I");
 
     return ErrorService.alertErrors(context, response.error);
   }
 
-  AlertDialog ajustaMedidasAlert() {
+  Future<bool> _atualizarMedida(String medidaId) async {
+    var viewModel = MedidaAtualizarViewModel(
+        pacienteId: "d8ee969d-6bdb-41a3-974f-260878c9013b",
+        medidaId: medidaId,
+        medida: medidaMapper());
+
+    var response = await pacienteService.atualizarMedida(
+        medidaAtualizarViewModel: viewModel,
+        token:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im51dHJpIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiYjAxMTE3NzgtMGQ0Ny00NGY5LWEzZGYtNDRkNTFlYmNmMThhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjI5MzY2NjYsImV4cCI6MTY2Mjk0MzcyMiwiaWF0IjoxNjYyOTM2NjY2fQ.sWLFDfMyU2VckgDI_1ThptppSwBwsvfvI2MxFlJqy2I");
+
+    return ErrorService.alertErrors(context, response.error);
+  }
+
+  Column medidaConfig() {
+    return Column(
+      children: [
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida("Peso Atual", controllerPesoAtual),
+                const SizedBox(width: 15),
+                ajusteMedida("Peso Ideal", controllerPesoIdeal),
+                const SizedBox(width: 15),
+                ajusteMedida("Altura", controllerAltura),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida(
+                    "Braco Relaxado Direito", controllerBracoRelaxadoDireito),
+                const SizedBox(width: 15),
+                ajusteMedida(
+                    "Braco Relaxado Esquerdo", controllerBracoRelaxadoEsquerdo),
+                const SizedBox(width: 15),
+                ajusteMedida(
+                    "Braco Contraido Direito", controllerBracoContraidoDireito),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida("Braco Contraido Esquerdo",
+                    controllerBracoContraidoEsquerdo),
+                const SizedBox(width: 15),
+                ajusteMedida("Antebraco Direito", controllerAntebracoDireito),
+                const SizedBox(width: 15),
+                ajusteMedida("Antebraco Esquerdo", controllerAntebracoEsquerdo),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida("Punho Direito", controllerPunhoDireito),
+                const SizedBox(width: 15),
+                ajusteMedida("Punho Esquerdo", controllerPunhoEsquerdo),
+                const SizedBox(width: 15),
+                ajusteMedida("Pescoco", controllerPescoco),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida("Ombro", controllerOmbro),
+                const SizedBox(width: 15),
+                ajusteMedida("Peitoral", controllerPeitoral),
+                const SizedBox(width: 15),
+                ajusteMedida("Cintura", controllerCintura),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida("Abdomen", controllerAbdomen),
+                const SizedBox(width: 15),
+                ajusteMedida("Quadril", controllerQuadril),
+                const SizedBox(width: 15),
+                ajusteMedida(
+                    "Panturrilha Direita", controllerPanturrilhaDireita),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida(
+                    "Panturrilha Esquerda", controllerPanturrilhaEsquerda),
+                const SizedBox(width: 15),
+                ajusteMedida("Coxa Direita", controllerCoxaDireita),
+                const SizedBox(width: 15),
+                ajusteMedida("Coxa Esquerda", controllerCoxaEsquerda),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida(
+                    "Coxa Proximal Direita", controllerCoxaProximalDireita),
+                const SizedBox(width: 15),
+                ajusteMedida(
+                    "Coxa Proximal Esquerda", controllerCoxaProximalEsquerda),
+              ],
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  AlertDialog adicionarMedidasAlert() {
+    setControllers();
     return AlertDialog(
       title: const Center(child: Text('Adicionar Medida')),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * .5,
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ajusteMedida("Peso Atual", controllerPesoAtual),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Peso Ideal", controllerPesoIdeal),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Altura", controllerAltura),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ajusteMedida("Braco Relaxado Direito",
-                        controllerBracoRelaxadoDireito),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Braco Relaxado Esquerdo",
-                        controllerBracoRelaxadoEsquerdo),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Braco Contraido Direito",
-                        controllerBracoContraidoDireito),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ajusteMedida("Braco Contraido Esquerdo",
-                        controllerBracoContraidoEsquerdo),
-                    const SizedBox(width: 15),
-                    ajusteMedida(
-                        "Antebraco Direito", controllerAntebracoDireito),
-                    const SizedBox(width: 15),
-                    ajusteMedida(
-                        "Antebraco Esquerdo", controllerAntebracoEsquerdo),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ajusteMedida("Punho Direito", controllerPunhoDireito),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Punho Esquerdo", controllerPunhoEsquerdo),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Pescoco", controllerPescoco),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ajusteMedida("Ombro", controllerOmbro),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Peitoral", controllerPeitoral),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Cintura", controllerCintura),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ajusteMedida("Abdomen", controllerAbdomen),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Quadril", controllerQuadril),
-                    const SizedBox(width: 15),
-                    ajusteMedida(
-                        "Panturrilha Direita", controllerPanturrilhaDireita),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ajusteMedida(
-                        "Panturrilha Esquerda", controllerPanturrilhaEsquerda),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Coxa Direita", controllerCoxaDireita),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Coxa Esquerda", controllerCoxaEsquerda),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ajusteMedida(
-                        "Coxa Proximal Direita", controllerCoxaProximalDireita),
-                    const SizedBox(width: 15),
-                    ajusteMedida("Coxa Proximal Esquerda",
-                        controllerCoxaProximalEsquerda),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+        child: medidaConfig(),
       ),
       actions: <Widget>[
         TextButton(
@@ -269,11 +351,38 @@ class _MedidaPageState extends State<MedidaPage> {
           onPressed: () async => {
             if (await _adicionarMedida() == false)
               {
-                _load(),
+                await _load(),
                 Navigator.pop(context, 'Vincular'),
               }
           },
           child: const Text('Vincular'),
+        ),
+      ],
+    );
+  }
+
+  AlertDialog atualizarMedidasAlert(MedidaViewModel medida) {
+    setControllers(viewModel: medida);
+    return AlertDialog(
+      title: const Center(child: Text('Atualizar Medida')),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width * .5,
+        child: medidaConfig(),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () async => {
+            if (await _atualizarMedida(medida.id!) == false)
+              {
+                await _load(),
+                Navigator.pop(context, 'Atualizar'),
+              }
+          },
+          child: const Text('Atualizar'),
         ),
       ],
     );
@@ -289,7 +398,7 @@ class _MedidaPageState extends State<MedidaPage> {
         ),
         onPressed: () => showDialog<String>(
           context: context,
-          builder: (BuildContext context) => ajustaMedidasAlert(),
+          builder: (BuildContext context) => adicionarMedidasAlert(),
         ),
         child: const Text("Adicionar Medida"),
       ),
@@ -304,9 +413,10 @@ class _MedidaPageState extends State<MedidaPage> {
           backgroundColor: ColorUtil.blue,
           minimumSize: const Size(double.infinity, 55),
         ),
-        onPressed: () {
-          print(medida.id);
-        },
+        onPressed: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => atualizarMedidasAlert(medida),
+        ),
         child: Text(medida.descricao!),
       ),
     );

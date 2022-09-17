@@ -6,10 +6,12 @@ import 'package:nutri/pages/loginPage.dart';
 import 'package:nutri/pages/nutricionista/pacientesPage.dart';
 import 'package:nutri/pages/paciente/medidasPage.dart';
 import 'package:nutri/pages/paciente/pacientePage.dart';
+import 'package:nutri/pages/paciente/planosAlimentaresPage.dart';
 import 'package:nutri/services/localStorageService.dart';
 import 'package:nutri/services/loginService.dart';
 import 'package:nutri/services/nutricionistaService.dart';
 import 'package:nutri/services/pacienteService.dart';
+import 'package:nutri/services/tacoService.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/nutricionista/perfilPage.dart';
@@ -41,6 +43,10 @@ class MyApp extends StatelessWidget {
           dispose: (context, LoginService service) => service.client.dispose(),
         ),
         Provider(
+          create: (context) => TacoService.create(),
+          dispose: (context, TacoService service) => service.client.dispose(),
+        ),
+        Provider(
           create: (context) => NutricionistaService.create(),
           dispose: (context, NutricionistaService service) =>
               service.client.dispose(),
@@ -56,12 +62,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MedidaPage(),
+        home: const PlanosAlimentaresPage(),
         routes: {
           '/home': (context) => const HomePage(),
           '/login': (context) => const LoginPage(),
           '/paciente': (context) => const PacientePage(),
           '/paciente/medidas': (context) => const MedidaPage(),
+          '/paciente/planosAlimentares': (context) =>
+              const PlanosAlimentaresPage(),
           '/nutri/perfil': (context) => const PerfilPage(),
           '/nutri/pacientes': (context) => const PacientesPage(),
         },

@@ -17,10 +17,10 @@ class _$TacoService extends TacoService {
   final definitionType = TacoService;
 
   @override
-  Future<Response<TacoPaginationViewModel>> getPacientes(
+  Future<Response<TacoPaginationViewModel>> getTacoByPagination(
       {required String descricao,
-      required String paginaAtual,
-      required String tamanhoPagina}) {
+      required int paginaAtual,
+      required int tamanhoPagina}) {
     final $url = 'Taco';
     final $params = <String, dynamic>{
       'descricao': descricao,

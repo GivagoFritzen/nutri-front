@@ -8,10 +8,10 @@ part 'tacoService.chopper.dart';
 @ChopperApi(baseUrl: 'Taco')
 abstract class TacoService extends ChopperService {
   @Get()
-  Future<Response<TacoPaginationViewModel>> getPacientes(
+  Future<Response<TacoPaginationViewModel>> getTacoByPagination(
       {@Query() required String descricao,
-      @Query() required String paginaAtual,
-      @Query() required String tamanhoPagina});
+      @Query() required int paginaAtual,
+      @Query() required int tamanhoPagina});
 
   static TacoService create() {
     const converter = JsonSerializableConverter({

@@ -19,7 +19,6 @@ class _NumberInputWithIncrementDecrementState
   @override
   void initState() {
     super.initState();
-    widget.controller.text = "0";
   }
 
   Container increaseButton() {
@@ -37,7 +36,7 @@ class _NumberInputWithIncrementDecrementState
           size: 18.0,
         ),
         onTap: () {
-          int currentValue = int.parse(widget.controller.text);
+          int currentValue = int.parse(widget.controller.text.split('.')[0]);
           setState(() {
             currentValue++;
             widget.controller.text = (currentValue).toString();
@@ -54,7 +53,7 @@ class _NumberInputWithIncrementDecrementState
         size: 18.0,
       ),
       onTap: () {
-        int currentValue = int.parse(widget.controller.text);
+        int currentValue = int.parse(widget.controller.text.split('.')[0]).round();
         setState(() {
           currentValue--;
           widget.controller.text =
