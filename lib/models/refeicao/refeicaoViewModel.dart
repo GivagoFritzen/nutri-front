@@ -1,30 +1,27 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:nutri/models/alimento/alimentoViewModel.dart';
 
+part 'refeicaoViewModel.g.dart';
+
+@JsonSerializable()
 class RefeicaoViewModel {
-  String? horario;
-  String? descricao;
-  List<AlimentoViewModel>? alimentos;
+  late DateTime? horario = DateTime.now();
+  late String? descricao = "";
+  late List<AlimentoViewModel>? alimentos = <AlimentoViewModel>[];
 
-  RefeicaoViewModel({this.horario, this.descricao, this.alimentos});
+  RefeicaoViewModel(this.horario, this.alimentos, this.descricao);
 
-  RefeicaoViewModel.fromJson(Map<String, dynamic> json) {
-    horario = json['horario'];
-    descricao = json['descricao'];
-    if (json['alimentos'] != null) {
-      alimentos = <AlimentoViewModel>[];
-      json['alimentos'].forEach((v) {
-        alimentos!.add(new AlimentoViewModel.fromJson(v));
-      });
-    }
+  RefeicaoViewModel.empty();
+
+  factory RefeicaoViewModel.clone(RefeicaoViewModel copy) {
+    return RefeicaoViewModel(
+      copy.horario,
+      copy.alimentos,
+      copy.descricao,
+    );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['horario'] = this.horario;
-    data['descricao'] = this.descricao;
-    if (this.alimentos != null) {
-      data['alimentos'] = this.alimentos!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  static const fromJson = _$RefeicaoViewModelFromJson;
+
+  Map<String, dynamic> toJson() => _$RefeicaoViewModelToJson(this);
 }

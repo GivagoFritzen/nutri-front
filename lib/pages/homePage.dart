@@ -19,10 +19,24 @@ class _HomePageState extends State<HomePage> {
         height: double.infinity,
         color: Colors.white24,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const <Widget>[
-            TopBar(),
-            LeftBar(),
+          children: [
+            const TopBar(),
+            SizedBox(
+              height:
+                  MediaQuery.of(context).size.height - TopBar.GetHeightSize(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const LeftBar(),
+                  Container(
+                    color: Colors.white24,
+                    width:
+                    MediaQuery.of(context).size.width - LeftBar.GetWidth(),
+                  ),
+                  const SizedBox()
+                ],
+              ),
+            ),
           ],
         ),
       ),

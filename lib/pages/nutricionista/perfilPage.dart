@@ -47,21 +47,21 @@ class _PerfilPageState extends State<PerfilPage> {
         id: localStorageService.local["id"]!,
         token: "Bearer ${localStorageService.local["token"]}");
 
-    if (response.error != null) {
-      //Refresh or LoginPage
+    if (response.error == null) {
+      _SobrenomeController.text = response.body!.sobrenome!;
+      _EmailController.text = response.body!.email!;
+      _CidadeController.text = response.body!.cidade!;
+      _TelefoneController.text = response.body!.telefone!;
+
+      _NomeController.text = response.body!.nome!;
+      localStorageService.setString('name', response.body!.nome!);
+
+      setState(() {
+        genreValue = response.body!.sexo == true ? "Homem" : "Mulher";
+      });
+
+      localStorageService.readLocale();
     }
-
-    _SobrenomeController.text = response.body!.sobrenome!;
-    _EmailController.text = response.body!.email!;
-    _CidadeController.text = response.body!.cidade!;
-    _TelefoneController.text = response.body!.telefone!;
-
-    _NomeController.text = response.body!.nome!;
-    localStorageService.setString('name', response.body!.nome!);
-
-    genreValue = response.body!.sexo == true ? "Homem" : "Mulher";
-
-    localStorageService.readLocale();
   }
 
   @override

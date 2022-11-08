@@ -19,14 +19,26 @@ class LeftBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10),
             child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/nutri/perfil');
+                },
                 icon: const Icon(Icons.account_circle_outlined)),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.account_circle_outlined)),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/nutri/pacientes');
+                },
+                icon: const Icon(Icons.people_outline)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/paciente');
+                },
+                icon: const Icon(Icons.person_add_alt_1_outlined)),
           ),
         ],
       ),

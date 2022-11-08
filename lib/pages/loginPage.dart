@@ -64,6 +64,8 @@ class _LoginPageState extends State<LoginPage> {
         localStorageService.setString('id', decodedToken["primarysid"]);
 
         localStorageService.readLocale();
+
+        Navigator.pushNamed(context, '/home');
       }
     }
   }
@@ -97,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
       child: TextButton(
         style: ButtonStyle(
           backgroundColor:
-              MaterialStateProperty.all<Color>(Colors.deepPurpleAccent),
+              MaterialStateProperty.all<Color>(ColorUtil.blue),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white70),
         ),
         onPressed: _logar,

@@ -10,7 +10,7 @@ class PacientePlanoAlimentarViewModel {
 
   PacientePlanoAlimentarViewModel({this.pacienteId, this.refeicoes});
 
-  static const fromJsonFactory = _$PacientePlanoAlimentarViewModelFromJson;
+  static const fromJson = _$PacientePlanoAlimentarViewModelFromJson;
 
   Map<String, dynamic> toJson() =>
       _$PacientePlanoAlimentarViewModelToJson(this);

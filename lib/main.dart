@@ -58,11 +58,11 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Nutri ',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const PlanosAlimentaresPage(),
+        home: const LoginPage(),
         routes: {
           '/home': (context) => const HomePage(),
           '/login': (context) => const LoginPage(),

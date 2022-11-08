@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:nutri/converter/jsonSerializableConverter.dart';
+import 'package:nutri/models/alimento/alimentoViewModel.dart';
 import 'package:nutri/models/circuferencia/circunferenciaViewModel.dart';
 import 'package:nutri/models/medida/medidaAdicionarViewModel.dart';
 import 'package:nutri/models/medida/medidaAtualizarViewModel.dart';
@@ -10,6 +11,7 @@ import 'package:nutri/models/paciente/pacienteAtualizarViewModel.dart';
 import 'package:nutri/models/paciente/pacientePlanoAlimentarViewModel.dart';
 import 'package:nutri/models/paciente/pacienteViewModel.dart';
 import 'package:nutri/models/planoAlimentar/planoAlimentarViewModel.dart';
+import 'package:nutri/models/refeicao/refeicaoViewModel.dart';
 import 'package:nutri/utils/appSettings.dart';
 
 part 'pacienteService.chopper.dart';
@@ -58,11 +60,8 @@ abstract class PacienteService extends ChopperService {
 
   @Post(path: '/AdicionarPlanoAlimentar')
   Future<Response<PacientePlanoAlimentarViewModel>> adicionarPlanoAlimentar(
-      {@Body()
-          required PacientePlanoAlimentarViewModel
-              pacientePlanoAlimentarViewModel,
-      @Header("Authorization")
-          required String token});
+      {@Body() required PacientePlanoAlimentarViewModel pacienteViewModel,
+      @Header("Authorization") required String token});
 
   @Patch(path: '/AtualizarPlanoAlimentar')
   Future<Response<PacienteAtualizarPlanoAlimentarViewModel>>
@@ -78,13 +77,16 @@ abstract class PacienteService extends ChopperService {
       PacienteViewModel: PacienteViewModel.fromJsonFactory,
       PacienteAdicionarViewModel: PacienteAdicionarViewModel.fromJsonFactory,
       PacientePlanoAlimentarViewModel:
-          PacientePlanoAlimentarViewModel.fromJsonFactory,
+          PacientePlanoAlimentarViewModel.fromJson,
       PacienteAtualizarPlanoAlimentarViewModel:
           PacienteAtualizarPlanoAlimentarViewModel.fromJsonFactory,
       PacienteAtualizarViewModel: PacienteAtualizarViewModel.fromJsonFactory,
       MedidaViewModel: MedidaViewModel.fromJson,
       MedidaAtualizarViewModel: MedidaAtualizarViewModel.fromJsonFactory,
       MedidaAdicionarViewModel: MedidaAdicionarViewModel.fromJsonFactory,
+      PlanoAlimentarViewModel: PlanoAlimentarViewModel.fromJson,
+      RefeicaoViewModel: RefeicaoViewModel.fromJson,
+      AlimentoViewModel: AlimentoViewModel.fromJson,
       CircunferenciaViewModel: CircunferenciaViewModel.fromJson
     });
 

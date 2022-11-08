@@ -1,27 +1,17 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:nutri/models/refeicao/refeicaoViewModel.dart';
 
+part 'planoAlimentarViewModel.g.dart';
+
+@JsonSerializable()
 class PlanoAlimentarViewModel {
+  String? id;
   String? data;
   List<RefeicaoViewModel>? refeicoes;
 
-  PlanoAlimentarViewModel({this.data, this.refeicoes});
+  PlanoAlimentarViewModel({this.id, this.data, this.refeicoes});
 
-  PlanoAlimentarViewModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'];
-    if (json['refeicoes'] != null) {
-      refeicoes = <RefeicaoViewModel>[];
-      json['refeicoes'].forEach((v) {
-        refeicoes!.add(new RefeicaoViewModel.fromJson(v));
-      });
-    }
-  }
+  static const fromJson = _$PlanoAlimentarViewModelFromJson;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['data'] = this.data;
-    if (this.refeicoes != null) {
-      data['refeicoes'] = this.refeicoes!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$PlanoAlimentarViewModelToJson(this);
 }

@@ -99,12 +99,8 @@ class _PacientesPageState extends State<PacientesPage> {
   }
 
   Future<bool> _vincular() async {
-    var viewModel = new NutricionistaDesvincularOuVincularViewModel();
-    viewModel.id = "6ce86526-6a27-4703-a4ae-50d7b50b8a7a";
-    viewModel.pacienteEmail = _controllerEmail.text;
-
     var response = await nutricionistaService.vincular(
-        nutricionistaDesvincularOuVincularViewModel: viewModel,
+        pacienteEmail: _controllerEmail.text,
         token: "Bearer ${localStorageService.local["token"]}");
 
     return ErrorService.alertErrors(context, response.error);

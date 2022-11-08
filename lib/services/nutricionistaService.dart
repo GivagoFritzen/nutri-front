@@ -33,7 +33,9 @@ abstract class NutricionistaService extends ChopperService {
   @Post()
   Future<Response<NutricionistaAdicionarViewModel>> adicionar({
     @Header("Authorization") required String token,
-    @Body() required NutricionistaAdicionarViewModel nutricionistaAdicionarViewModel,
+    @Body()
+        required NutricionistaAdicionarViewModel
+            nutricionistaAdicionarViewModel,
   });
 
   @Put()
@@ -45,12 +47,9 @@ abstract class NutricionistaService extends ChopperService {
               nutricionistaAtualizarViewModel});
 
   @Patch(path: '/VincularPaciente')
-  Future<Response<NutricionistaDesvincularOuVincularViewModel>> vincular({
-    @Header("Authorization") required String token,
-    @Body() required
-        NutricionistaDesvincularOuVincularViewModel
-            nutricionistaDesvincularOuVincularViewModel,
-  });
+  Future<Response<NutricionistaDesvincularOuVincularViewModel>> vincular(
+      {@Header("Authorization") required String token,
+      @Query() required String pacienteEmail});
 
   @Patch(path: '/DesvincularPaciente')
   Future<Response<NutricionistaDesvincularOuVincularViewModel>> desvincular(

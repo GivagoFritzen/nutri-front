@@ -5,8 +5,14 @@ import 'package:provider/provider.dart';
 
 class Dropdownfield extends StatefulWidget {
   String? labelText = "";
+  TextEditingController textEditingController;
+  final Function(String val) updateValue;
 
-  Dropdownfield({Key? key, this.labelText}) : super(key: key);
+  Dropdownfield({Key? key,
+    required this.textEditingController,
+    required this.updateValue,
+    this.labelText})
+      : super(key: key);
 
   @override
   _DropdownfieldState createState() => _DropdownfieldState();
@@ -14,9 +20,7 @@ class Dropdownfield extends StatefulWidget {
 
 class _DropdownfieldState extends State<Dropdownfield> {
   late TacoService tacoService;
-
-  final _textEditingController = TextEditingController();
-  final _scrollController = ScrollController();
+  final _dropdownScrollController = ScrollController();
 
   bool showDropdown = false;
   int currentPage = 0;
@@ -26,9 +30,9 @@ class _DropdownfieldState extends State<Dropdownfield> {
   void initState() {
     tacoService = Provider.of<TacoService>(context, listen: false);
 
-    _scrollController.addListener(() {
-      if (_scrollController.position.maxScrollExtent ==
-          _scrollController.offset) {
+    _dropdownScrollController.addListener(() {
+      if (_dropdownScrollController.position.maxScrollExtent ==
+          _dropdownScrollController.offset) {
         loadOptions();
       }
     });
@@ -47,7 +51,8 @@ class _DropdownfieldState extends State<Dropdownfield> {
             minimumSize: const Size(double.infinity, 45),
           ),
           onPressed: () {
-            _textEditingController.text = text;
+            widget.textEditingController.text = text;
+            widget.updateValue(text);
             setState(() {
               showDropdown = false;
             });
@@ -66,10 +71,10 @@ class _DropdownfieldState extends State<Dropdownfield> {
       height: 100,
       child: Scrollbar(
         thumbVisibility: true,
-        controller: _scrollController,
+        controller: _dropdownScrollController,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          controller: _scrollController,
+          controller: _dropdownScrollController,
           child: Column(
             children: [
               for (var option in options!) dropdownBelow(option),
@@ -82,7 +87,7 @@ class _DropdownfieldState extends State<Dropdownfield> {
 
   void loadOptions() async {
     var response = await tacoService.getTacoByPagination(
-        descricao: _textEditingController.text,
+        descricao: widget.textEditingController.text,
         paginaAtual: currentPage,
         tamanhoPagina: 10);
 
@@ -103,13 +108,14 @@ class _DropdownfieldState extends State<Dropdownfield> {
         children: [
           TextField(
             onChanged: (text) async {
+              widget.updateValue(text);
               setState(() {
                 currentPage = 0;
                 options = <String>[];
                 loadOptions();
               });
             },
-            controller: _textEditingController,
+            controller: widget.textEditingController,
             decoration: InputDecoration(
               labelText: widget.labelText,
               suffixIcon: IconButton(

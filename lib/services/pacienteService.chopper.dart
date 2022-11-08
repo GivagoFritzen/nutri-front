@@ -131,14 +131,14 @@ class _$PacienteService extends PacienteService {
 
   @override
   Future<Response<PacientePlanoAlimentarViewModel>> adicionarPlanoAlimentar(
-      {required PacientePlanoAlimentarViewModel pacientePlanoAlimentarViewModel,
+      {required PacientePlanoAlimentarViewModel pacienteViewModel,
       required String token}) {
     final $url = 'Paciente/AdicionarPlanoAlimentar';
     final $headers = {
       'Authorization': token,
     };
 
-    final $body = pacientePlanoAlimentarViewModel;
+    final $body = pacienteViewModel;
     final $request =
         Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
     return client.send<PacientePlanoAlimentarViewModel,

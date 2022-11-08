@@ -106,17 +106,15 @@ class _$NutricionistaService extends NutricionistaService {
 
   @override
   Future<Response<NutricionistaDesvincularOuVincularViewModel>> vincular(
-      {required String token,
-      required NutricionistaDesvincularOuVincularViewModel
-          nutricionistaDesvincularOuVincularViewModel}) {
+      {required String token, required String pacienteEmail}) {
     final $url = 'Nutricionista/VincularPaciente';
+    final $params = <String, dynamic>{'pacienteEmail': pacienteEmail};
     final $headers = {
       'Authorization': token,
     };
 
-    final $body = nutricionistaDesvincularOuVincularViewModel;
-    final $request =
-        Request('PATCH', $url, client.baseUrl, body: $body, headers: $headers);
+    final $request = Request('PATCH', $url, client.baseUrl,
+        parameters: $params, headers: $headers);
     return client.send<NutricionistaDesvincularOuVincularViewModel,
         NutricionistaDesvincularOuVincularViewModel>($request);
   }
