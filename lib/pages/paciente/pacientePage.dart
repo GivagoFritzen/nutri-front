@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nutri/components/leftBar.dart';
 import 'package:nutri/components/topBar.dart';
+import 'package:nutri/models/paciente/pacienteAdicionarViewModel.dart';
 import 'package:nutri/models/paciente/pacienteAtualizarViewModel.dart';
 import 'package:nutri/models/paciente/pacienteViewModel.dart';
+import 'package:nutri/services/erroService.dart';
 import 'package:nutri/services/localStorageService.dart';
 import 'package:nutri/services/pacienteService.dart';
 import 'package:nutri/utils/colors.dart';
@@ -19,6 +21,7 @@ class _PacientePageState extends State<PacientePage> {
   late PacienteService pacienteService;
   late LocalStorageService localStorageService;
 
+  String genreValue = 'Homem';
   late PacienteViewModel pacienteViewModel;
 
   final TextEditingController _controllerNome = TextEditingController();
@@ -35,19 +38,23 @@ class _PacientePageState extends State<PacientePage> {
     localStorageService =
         Provider.of<LocalStorageService>(context, listen: false);
 
-    _load();
+    Future.delayed(Duration.zero, () {
+      _load(getPacienteId());
+    });
   }
 
-  void _load() async {
+  void _load(String? pacienteId) async {
+    if (pacienteId == null || pacienteId.isEmpty) return;
+
     var response = await pacienteService.getById(
-      id: "6b08f77f-e158-41d6-ae4d-0471ca15d8b6",
-      token:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkdpdmFnbzEyIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiNmNlODY1MjYtNmEyNy00NzAzLWE0YWUtNTBkN2I1MGI4YTdhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjExMTUxNzEsImV4cCI6MTY2MTEyMjMxNCwiaWF0IjoxNjYxMTE1MTcxfQ.U-QFxzpi5sO_BkWjOyK2froKsvVh12Nk-ZRAIBUqPPY",
+      id: pacienteId,
+      token: "Bearer ${localStorageService.local["token"]}",
     );
 
     if (response.error == null) {
       setState(() {
         pacienteViewModel = response.body!;
+        genreValue = response.body!.sexo == true ? "Homem" : "Mulher";
       });
 
       _controllerNome.text = pacienteViewModel.nome!;
@@ -58,17 +65,6 @@ class _PacientePageState extends State<PacientePage> {
     }
   }
 
-  Widget deletarButton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: ColorUtil.red,
-        minimumSize: const Size(200, 55),
-      ),
-      onPressed: () {},
-      child: Text("Deletar"),
-    );
-  }
-
   Widget medidasButton() {
     return Container(
       margin: const EdgeInsets.only(left: 25.0),
@@ -77,7 +73,13 @@ class _PacientePageState extends State<PacientePage> {
           backgroundColor: ColorUtil.blue,
           minimumSize: const Size(200, 55),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            '/paciente/medidas',
+            arguments: {'paciente-id': getPacienteId()},
+          );
+        },
         child: Text("Medidas"),
       ),
     );
@@ -91,7 +93,13 @@ class _PacientePageState extends State<PacientePage> {
           backgroundColor: ColorUtil.blue,
           minimumSize: const Size(200, 55),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            '/paciente/planosAlimentares',
+            arguments: {'paciente-id': getPacienteId()},
+          );
+        },
         child: Text("Planos Alimentares"),
       ),
     );
@@ -106,20 +114,53 @@ class _PacientePageState extends State<PacientePage> {
           minimumSize: const Size(200, 55),
         ),
         onPressed: () async {
+          var pacienteAdicionarViewModel = PacienteAdicionarViewModel(
+              nome: _controllerNome.text,
+              sobrenome: _controllerSobrenome.text,
+              email: _controllerEmail.text,
+              cidade: _controllerCidade.text,
+              telefone: _controllerTelefone.text,
+              sexo: genreValue == "Homem" ? true : false);
+
+          var response = await pacienteService.adicionar(
+            pacienteAdicionarViewModel: pacienteAdicionarViewModel,
+            token: "Bearer ${localStorageService.local["token"]}",
+          );
+
+          if (!ErrorService.alertErrors(context, response.error)) {
+            Navigator.pushNamed(
+              context,
+              '/nutri/pacientes',
+            );
+          }
+        },
+        child: Text("Salvar"),
+      ),
+    );
+  }
+
+  Widget atualizarButton() {
+    return Container(
+      margin: const EdgeInsets.only(left: 25.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ColorUtil.green,
+          minimumSize: const Size(200, 55),
+        ),
+        onPressed: () async {
           var pacienteAtualizarViewModel = PacienteAtualizarViewModel(
             nome: _controllerNome.text,
             sobrenome: _controllerSobrenome.text,
             email: _controllerEmail.text,
             cidade: _controllerCidade.text,
             telefone: _controllerTelefone.text,
-            sexo: pacienteViewModel!.sexo!,
+            sexo: genreValue == "Homem" ? true : false,
             id: pacienteViewModel!.id!,
           );
 
           var response = await pacienteService.atualizar(
             pacienteAtualizarViewModel: pacienteAtualizarViewModel,
-            token:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkdpdmFnbzEyIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiNmNlODY1MjYtNmEyNy00NzAzLWE0YWUtNTBkN2I1MGI4YTdhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjExMTUxNzEsImV4cCI6MTY2MTEyMjMxNCwiaWF0IjoxNjYxMTE1MTcxfQ.U-QFxzpi5sO_BkWjOyK2froKsvVh12Nk-ZRAIBUqPPY",
+            token: "Bearer ${localStorageService.local["token"]}",
           );
 
           setState(() {
@@ -133,8 +174,13 @@ class _PacientePageState extends State<PacientePage> {
                 medidas: pacienteViewModel.medidas,
                 planoAlimentares: pacienteViewModel.planoAlimentares);
           });
+
+          Navigator.pushNamed(
+            context,
+            '/nutri/pacientes',
+          );
         },
-        child: Text("Salvar"),
+        child: Text("Atualizar"),
       ),
     );
   }
@@ -182,20 +228,61 @@ class _PacientePageState extends State<PacientePage> {
             pacienteRow("Email", _controllerEmail),
             pacienteRow("Cidade", _controllerCidade),
             pacienteRow("Telefone", _controllerTelefone),
+            selectGenre(),
             SizedBox(),
             SizedBox(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                deletarButton(),
-                medidasButton(),
-                planoAlimentarButton(),
-                salvarButton(),
-              ],
-            )
+            getPacienteId() != null && !getPacienteId()!.isEmpty
+                ? buttonsExistencePaciente()
+                : buttonsNewPaciente()
           ],
         ),
       ),
+    );
+  }
+
+  String? getPacienteId() {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    return arguments['paciente-id'];
+  }
+
+  Widget selectGenre() {
+    return DropdownButton<String>(
+      value: genreValue,
+      style: TextStyle(color: Colors.black),
+      underline: const SizedBox(),
+      onChanged: (String? newValue) {
+        setState(() {
+          genreValue = newValue!;
+        });
+      },
+      items: <String>['Homem', 'Mulher']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
+  Row buttonsExistencePaciente() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        medidasButton(),
+        planoAlimentarButton(),
+        atualizarButton(),
+      ],
+    );
+  }
+
+  Row buttonsNewPaciente() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        salvarButton(),
+      ],
     );
   }
 
@@ -212,7 +299,7 @@ class _PacientePageState extends State<PacientePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const LeftBar(),
+                  LeftBar(context: context),
                   Container(
                     color: Colors.white24,
                     width:

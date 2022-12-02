@@ -7,7 +7,7 @@ class LocalStorageService extends ChangeNotifier {
   Map<String, String> local = {
     "token": "",
     "refreshToken": "",
-    "name": "teste",
+    "name": "",
     "id": ""
   };
 
@@ -30,6 +30,16 @@ class LocalStorageService extends ChangeNotifier {
       "refreshToken": prefs.getString("refreshToken") ?? "",
       "name": prefs.getString("name") ?? "",
       "id": prefs.getString("id") ?? "",
+    };
+    notifyListeners();
+  }
+
+  clean() async {
+    local = {
+      "token": "",
+      "refreshToken": "",
+      "name": "",
+      "id": "",
     };
     notifyListeners();
   }

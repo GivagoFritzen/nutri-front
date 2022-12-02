@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nutri/components/leftBar.dart';
 import 'package:nutri/components/topBar.dart';
-import 'package:nutri/models/nutricionista/nutricionistaDesvincularOuVincularViewModel.dart';
+import 'package:nutri/models/login/loginTokenViewModel.dart';
 import 'package:nutri/models/paciente/pacienteSimplificadoViewModel.dart';
 import 'package:nutri/services/erroService.dart';
 import 'package:nutri/services/localStorageService.dart';
+import 'package:nutri/services/loginService.dart';
 import 'package:nutri/services/nutricionistaService.dart';
+import 'package:nutri/services/refreshTokenService.dart';
 import 'package:nutri/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,7 @@ class PacientesPage extends StatefulWidget {
 class _PacientesPageState extends State<PacientesPage> {
   late NutricionistaService nutricionistaService;
   late LocalStorageService localStorageService;
+  late LoginService loginService;
 
   final TextEditingController _controllerEmail = TextEditingController();
 
@@ -33,6 +36,7 @@ class _PacientesPageState extends State<PacientesPage> {
         Provider.of<NutricionistaService>(context, listen: false);
     localStorageService =
         Provider.of<LocalStorageService>(context, listen: false);
+    loginService = Provider.of<LoginService>(context, listen: false);
 
     _load();
   }
@@ -46,6 +50,14 @@ class _PacientesPageState extends State<PacientesPage> {
       setState(() {
         pacientes = response.body!;
       });
+    } else {
+      RefreshTokenService.refresh(
+          context,
+          localStorageService,
+          loginService,
+          LoginTokenViewModel(
+              token: localStorageService.local["token"]!,
+              refreshToken: localStorageService.local["refreshToken"]!));
     }
   }
 
@@ -70,7 +82,8 @@ class _PacientesPageState extends State<PacientesPage> {
         pacienteInfo("Sobrenome"),
         pacienteInfo("Email"),
         pacienteInfo("Telefone"),
-        const SizedBox()
+        const SizedBox(),
+        const SizedBox(),
       ],
     );
   }
@@ -82,6 +95,24 @@ class _PacientesPageState extends State<PacientesPage> {
         pacienteInfo(paciente.sobrenome!),
         pacienteInfo(paciente.email!),
         pacienteInfo(paciente.telefone!),
+        TextButton(
+          onPressed: () async => {
+            Navigator.pushNamed(
+              context,
+              '/paciente',
+              arguments: {'paciente-id': paciente.id},
+            )
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Icon(
+                Icons.person_add_alt_1_outlined,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+        ),
         TextButton(
           onPressed: () async => {_desvincular(paciente.email!)},
           child: const Padding(
@@ -151,7 +182,9 @@ class _PacientesPageState extends State<PacientesPage> {
             ),
           ],
         ),
-      ),
+      ).then((exit) {
+        _controllerEmail.text = "";
+      }),
       child: const Text("Vincular"),
     );
   }
@@ -201,7 +234,7 @@ class _PacientesPageState extends State<PacientesPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const LeftBar(),
+                  LeftBar(context: context),
                   Container(
                     color: Colors.white24,
                     width:

@@ -66,20 +66,21 @@ class _MedidaPageState extends State<MedidaPage> {
   void initState() {
     super.initState();
 
-    //final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-
     pacienteService = Provider.of<PacienteService>(context, listen: false);
     localStorageService =
         Provider.of<LocalStorageService>(context, listen: false);
 
-    _load();
+    Future.delayed(Duration.zero, () {
+      _load(getPacienteId());
+    });
   }
 
-  Future<void> _load() async {
+  Future<void> _load(String? pacienteId) async {
+    if (pacienteId == null || pacienteId.isEmpty) return;
+
     var response = await pacienteService.getMedidasById(
-      id: "d8ee969d-6bdb-41a3-974f-260878c9013b",
-      token:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im51dHJpIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiYjAxMTE3NzgtMGQ0Ny00NGY5LWEzZGYtNDRkNTFlYmNmMThhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjI5MzY2NjYsImV4cCI6MTY2Mjk0MzcyMiwiaWF0IjoxNjYyOTM2NjY2fQ.sWLFDfMyU2VckgDI_1ThptppSwBwsvfvI2MxFlJqy2I",
+      id: pacienteId,
+      token: "Bearer ${localStorageService.local["token"]}",
     );
 
     if (response.error == null) {
@@ -171,18 +172,23 @@ class _MedidaPageState extends State<MedidaPage> {
     controllerPunhoEsquerdo.text = viewModel == null
         ? "1.0"
         : viewModel.circunferencia!.punhoEsquerdo.toString();
-    controllerPescoco.text =
-        viewModel == null ? "1.0" : viewModel.circunferencia!.pescoco.toString();
+    controllerPescoco.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.pescoco.toString();
     controllerOmbro.text =
         viewModel == null ? "1.0" : viewModel.circunferencia!.ombro.toString();
-    controllerPeitoral.text =
-        viewModel == null ? "1.0" : viewModel.circunferencia!.peitoral.toString();
-    controllerCintura.text =
-        viewModel == null ? "1.0" : viewModel.circunferencia!.cintura.toString();
-    controllerAbdomen.text =
-        viewModel == null ? "1.0" : viewModel.circunferencia!.abdomen.toString();
-    controllerQuadril.text =
-        viewModel == null ? "1.0" : viewModel.circunferencia!.quadril.toString();
+    controllerPeitoral.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.peitoral.toString();
+    controllerCintura.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.cintura.toString();
+    controllerAbdomen.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.abdomen.toString();
+    controllerQuadril.text = viewModel == null
+        ? "1.0"
+        : viewModel.circunferencia!.quadril.toString();
     controllerPanturrilhaDireita.text = viewModel == null
         ? "1.0"
         : viewModel.circunferencia!.panturrilhaDireita.toString();
@@ -205,27 +211,24 @@ class _MedidaPageState extends State<MedidaPage> {
 
   Future<bool> _adicionarMedida() async {
     var viewModel = MedidaAdicionarViewModel(
-        pacienteId: "d8ee969d-6bdb-41a3-974f-260878c9013b",
-        medida: medidaMapper());
+        pacienteId: getPacienteId()!, medida: medidaMapper());
 
     var response = await pacienteService.adicionarMedida(
         medidaAdicionarViewModel: viewModel,
-        token:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im51dHJpIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiYjAxMTE3NzgtMGQ0Ny00NGY5LWEzZGYtNDRkNTFlYmNmMThhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjI5MzY2NjYsImV4cCI6MTY2Mjk0MzcyMiwiaWF0IjoxNjYyOTM2NjY2fQ.sWLFDfMyU2VckgDI_1ThptppSwBwsvfvI2MxFlJqy2I");
+        token: "Bearer ${localStorageService.local["token"]}");
 
     return ErrorService.alertErrors(context, response.error);
   }
 
   Future<bool> _atualizarMedida(String medidaId) async {
     var viewModel = MedidaAtualizarViewModel(
-        pacienteId: "d8ee969d-6bdb-41a3-974f-260878c9013b",
+        pacienteId: getPacienteId()!,
         medidaId: medidaId,
         medida: medidaMapper());
 
     var response = await pacienteService.atualizarMedida(
         medidaAtualizarViewModel: viewModel,
-        token:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im51dHJpIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiYjAxMTE3NzgtMGQ0Ny00NGY5LWEzZGYtNDRkNTFlYmNmMThhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2NjI5MzY2NjYsImV4cCI6MTY2Mjk0MzcyMiwiaWF0IjoxNjYyOTM2NjY2fQ.sWLFDfMyU2VckgDI_1ThptppSwBwsvfvI2MxFlJqy2I");
+        token: "Bearer ${localStorageService.local["token"]}");
 
     return ErrorService.alertErrors(context, response.error);
   }
@@ -351,7 +354,7 @@ class _MedidaPageState extends State<MedidaPage> {
           onPressed: () async => {
             if (await _adicionarMedida() == false)
               {
-                await _load(),
+                await _load(getPacienteId()),
                 Navigator.pop(context, 'Vincular'),
               }
           },
@@ -378,7 +381,7 @@ class _MedidaPageState extends State<MedidaPage> {
           onPressed: () async => {
             if (await _atualizarMedida(medida.id!) == false)
               {
-                await _load(),
+                await _load(getPacienteId()),
                 Navigator.pop(context, 'Atualizar'),
               }
           },
@@ -401,6 +404,26 @@ class _MedidaPageState extends State<MedidaPage> {
           builder: (BuildContext context) => adicionarMedidasAlert(),
         ),
         child: const Text("Adicionar Medida"),
+      ),
+    );
+  }
+
+  Widget voltarButton() {
+    return Container(
+      margin: const EdgeInsets.only(left: 25.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ColorUtil.green,
+          minimumSize: const Size(200, 55),
+        ),
+        onPressed: () async => {
+          Navigator.pushNamed(
+            context,
+            '/paciente',
+            arguments: {'paciente-id': getPacienteId()},
+          )
+        },
+        child: const Text("Voltar"),
       ),
     );
   }
@@ -447,12 +470,19 @@ class _MedidaPageState extends State<MedidaPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              voltarButton(),
               adicionarButton(),
             ],
           ),
         ),
       ],
     );
+  }
+
+  String? getPacienteId() {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    return arguments['paciente-id'];
   }
 
   @override
@@ -468,7 +498,7 @@ class _MedidaPageState extends State<MedidaPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const LeftBar(),
+                  LeftBar(context: context),
                   Container(
                     color: Colors.white24,
                     width:

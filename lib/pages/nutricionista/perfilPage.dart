@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nutri/components/leftBar.dart';
 import 'package:nutri/components/topBar.dart';
 import 'package:nutri/models/nutricionista/nutricionistaAtualizarViewModel.dart';
+import 'package:nutri/services/erroService.dart';
 import 'package:nutri/services/localStorageService.dart';
 import 'package:nutri/services/nutricionistaService.dart';
 import 'package:nutri/utils/colors.dart';
@@ -80,7 +81,6 @@ class _PerfilPageState extends State<PerfilPage> {
   Widget selectGenre() {
     return DropdownButton<String>(
       value: genreValue,
-      icon: const Icon(null),
       style: TextStyle(color: Colors.black, fontSize: fontSize),
       underline: const SizedBox(),
       onChanged: (String? newValue) {
@@ -122,7 +122,7 @@ class _PerfilPageState extends State<PerfilPage> {
             borderRadius: BorderRadius.circular(18.0),
           ),
         ),
-        onPressed: () {
+        onPressed: () async {
           var nutricionistaAtualizarViewModel =
               new NutricionistaAtualizarViewModel();
 
@@ -141,13 +141,15 @@ class _PerfilPageState extends State<PerfilPage> {
           nutricionistaAtualizarViewModel.novaSenha =
               _NovaSenhaeController.value.text;
 
-          nutricionistaService.atualizar(
+          var response = await nutricionistaService.atualizar(
               nutricionistaAtualizarViewModel: nutricionistaAtualizarViewModel,
               token: "Bearer ${localStorageService.local["token"]}");
 
-          localStorageService.setString('name', _NomeController.value.text);
+          if (!ErrorService.alertErrors(context, response.error)) {
+            localStorageService.setString('name', _NomeController.value.text);
 
-          localStorageService.readLocale();
+            localStorageService.readLocale();
+          }
         },
         child: Text(
           "Atualizar",
@@ -203,7 +205,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const LeftBar(),
+                    LeftBar(context: context),
                     Container(
                       color: Colors.white24,
                       width: MediaQuery.of(context).size.width * .5,

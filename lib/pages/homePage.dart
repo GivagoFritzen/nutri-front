@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const LeftBar(),
+                  LeftBar(context: context),
                   Container(
                     color: Colors.white24,
                     width:

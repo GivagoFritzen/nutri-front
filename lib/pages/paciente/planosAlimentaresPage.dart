@@ -44,20 +44,21 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
   void initState() {
     super.initState();
 
-    //final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-
     pacienteService = Provider.of<PacienteService>(context, listen: false);
     localStorageService =
         Provider.of<LocalStorageService>(context, listen: false);
 
-    _load();
+    Future.delayed(Duration.zero, () {
+      _load(getPacienteId());
+    });
   }
 
-  Future<void> _load() async {
+  Future<void> _load(String? pacienteId) async {
+    if (pacienteId == null || pacienteId.isEmpty) return;
+
     var response = await pacienteService.getPlanosAlimentaresById(
-      id: "d8ee969d-6bdb-41a3-974f-260878c9013b",
-      token:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im51dHJpIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiYjAxMTE3NzgtMGQ0Ny00NGY5LWEzZGYtNDRkNTFlYmNmMThhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2Njc4NjI2NjYsImV4cCI6MTY2Nzg2OTg1NywiaWF0IjoxNjY3ODYyNjY2fQ.eNbMnHBL3mkUqMLxgJX3QM-ApewBD__AiK-SjNHtai8",
+      id: pacienteId!,
+      token: "Bearer ${localStorageService.local["token"]}",
     );
 
     if (response.error == null) {
@@ -306,13 +307,12 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
 
   Future<bool> _vincular() async {
     var viewModel = PacientePlanoAlimentarViewModel(
-        pacienteId: "d8ee969d-6bdb-41a3-974f-260878c9013b",
+        pacienteId: getPacienteId(),
         refeicoes: refeicoes);
 
     var response = await pacienteService.adicionarPlanoAlimentar(
         pacienteViewModel: viewModel,
-        token:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im51dHJpIiwiZW1haWwiOiJudXRyaUB0ZXN0ZS5jb20iLCJwcmltYXJ5c2lkIjoiYjAxMTE3NzgtMGQ0Ny00NGY5LWEzZGYtNDRkNTFlYmNmMThhIiwicm9sZSI6Ik51dHJpY2lvbmlzdGEiLCJuYmYiOjE2Njc4NjI2NjYsImV4cCI6MTY2Nzg2OTg1NywiaWF0IjoxNjY3ODYyNjY2fQ.eNbMnHBL3mkUqMLxgJX3QM-ApewBD__AiK-SjNHtai8");
+        token: "Bearer ${localStorageService.local["token"]}");
 
     return ErrorService.alertErrors(context, response.error);
   }
@@ -367,7 +367,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
                 alimentos = <AlimentoViewModel>[],
                 refeicaoTemp = RefeicaoViewModel.empty(),
                 alimentoTemp = <AlimentoViewModel>[],
-                await _load(),
+                await _load(getPacienteId()),
                 Navigator.pop(context, 'Salvar'),
               }
           },
@@ -404,7 +404,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
                 alimentos = <AlimentoViewModel>[],
                 refeicaoTemp = RefeicaoViewModel.empty(),
                 alimentoTemp = <AlimentoViewModel>[],
-                await _load(),
+                await _load(getPacienteId()),
                 Navigator.pop(context, 'Vincular'),
               }
           },
@@ -438,6 +438,26 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
     );
   }
 
+  Widget voltarButton() {
+    return Container(
+      margin: const EdgeInsets.only(left: 25.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ColorUtil.green,
+          minimumSize: const Size(200, 55),
+        ),
+        onPressed: () async => {
+          Navigator.pushNamed(
+            context,
+            '/paciente',
+            arguments: {'paciente-id': getPacienteId()},
+          )
+        },
+        child: const Text("Voltar"),
+      ),
+    );
+  }
+
   Widget planoAlimentarRow(PlanoAlimentarViewModel planoAlimentar) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -456,13 +476,14 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
                     context, setState, planoAlimentar);
               });
             }).then((value) => {
-              if(value == null || value == 'Cancel'){
-                planoAlimentar.refeicoes = refeicoesTemp,
-                refeicoes = <RefeicaoViewModel>[],
-                alimentos = <AlimentoViewModel>[],
-                refeicaoTemp = RefeicaoViewModel.empty(),
-                alimentoTemp = <AlimentoViewModel>[],
-              }
+              if (value == null || value == 'Cancel')
+                {
+                  planoAlimentar.refeicoes = refeicoesTemp,
+                  refeicoes = <RefeicaoViewModel>[],
+                  alimentos = <AlimentoViewModel>[],
+                  refeicaoTemp = RefeicaoViewModel.empty(),
+                  alimentoTemp = <AlimentoViewModel>[],
+                }
             }),
         child: Text(planoAlimentar.data!),
       ),
@@ -495,12 +516,19 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              voltarButton(),
               adicionarButton(),
             ],
           ),
         ),
       ],
     );
+  }
+
+  String? getPacienteId() {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    return arguments['paciente-id'];
   }
 
   @override
@@ -516,7 +544,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const LeftBar(),
+                  LeftBar(context: context),
                   Container(
                     color: Colors.white24,
                     width:
