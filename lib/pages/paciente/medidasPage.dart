@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:nutri/components/leftBar.dart';
 import 'package:nutri/components/numberInputWithIncrementDecrement.dart';
 import 'package:nutri/components/topBar.dart';
@@ -241,11 +242,14 @@ class _MedidaPageState extends State<MedidaPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ajusteMedida("Peso Atual", controllerPesoAtual),
+                ajusteMedida(translate('page-medida.campo.peso-atual'),
+                    controllerPesoAtual),
                 const SizedBox(width: 15),
-                ajusteMedida("Peso Ideal", controllerPesoIdeal),
+                ajusteMedida(translate('page-medida.campo.peso-ideal'),
+                    controllerPesoIdeal),
                 const SizedBox(width: 15),
-                ajusteMedida("Altura", controllerAltura),
+                ajusteMedida(
+                    translate('page-medida.campo.altura'), controllerAltura),
               ],
             ),
             const SizedBox(height: 15),
@@ -253,71 +257,60 @@ class _MedidaPageState extends State<MedidaPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ajusteMedida(
-                    "Braco Relaxado Direito", controllerBracoRelaxadoDireito),
+                    translate('page-medida.campo.braco-relaxado-direito'),
+                    controllerBracoRelaxadoDireito),
                 const SizedBox(width: 15),
                 ajusteMedida(
-                    "Braco Relaxado Esquerdo", controllerBracoRelaxadoEsquerdo),
+                    translate('page-medida.campo.braco-relaxado-esquerdo'), controllerBracoRelaxadoEsquerdo),
                 const SizedBox(width: 15),
                 ajusteMedida(
-                    "Braco Contraido Direito", controllerBracoContraidoDireito),
+                    translate('page-medida.campo.braco-contraido-direito'), controllerBracoContraidoDireito),
               ],
             ),
             const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ajusteMedida("Braco Contraido Esquerdo",
+                ajusteMedida(translate('page-medida.campo.braco-contraido-esquerdo'),
                     controllerBracoContraidoEsquerdo),
                 const SizedBox(width: 15),
-                ajusteMedida("Antebraco Direito", controllerAntebracoDireito),
+                ajusteMedida(translate('page-medida.campo.braco-contraido-direito'), controllerAntebracoDireito),
                 const SizedBox(width: 15),
-                ajusteMedida("Antebraco Esquerdo", controllerAntebracoEsquerdo),
+                ajusteMedida(translate('page-medida.campo.antebraco-esquerdo'), controllerAntebracoEsquerdo),
               ],
             ),
             const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ajusteMedida("Punho Direito", controllerPunhoDireito),
+                ajusteMedida(translate('page-medida.campo.punho-direito'), controllerPunhoDireito),
                 const SizedBox(width: 15),
-                ajusteMedida("Punho Esquerdo", controllerPunhoEsquerdo),
+                ajusteMedida(translate('page-medida.campo.punho-esquerdo'), controllerPunhoEsquerdo),
                 const SizedBox(width: 15),
-                ajusteMedida("Pescoco", controllerPescoco),
+                ajusteMedida(translate('page-medida.campo.pescoco'), controllerPescoco),
               ],
             ),
             const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ajusteMedida("Ombro", controllerOmbro),
+                ajusteMedida(translate('page-medida.campo.ombro'), controllerOmbro),
                 const SizedBox(width: 15),
-                ajusteMedida("Peitoral", controllerPeitoral),
+                ajusteMedida(translate('page-medida.campo.peitoral'), controllerPeitoral),
                 const SizedBox(width: 15),
-                ajusteMedida("Cintura", controllerCintura),
+                ajusteMedida(translate('page-medida.campo.cintura'), controllerCintura),
               ],
             ),
             const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ajusteMedida("Abdomen", controllerAbdomen),
+                ajusteMedida(translate('page-medida.campo.abdomen'), controllerAbdomen),
                 const SizedBox(width: 15),
-                ajusteMedida("Quadril", controllerQuadril),
+                ajusteMedida(translate('page-medida.campo.quadril'), controllerQuadril),
                 const SizedBox(width: 15),
                 ajusteMedida(
-                    "Panturrilha Direita", controllerPanturrilhaDireita),
-              ],
-            ),
-            const SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ajusteMedida(
-                    "Panturrilha Esquerda", controllerPanturrilhaEsquerda),
-                const SizedBox(width: 15),
-                ajusteMedida("Coxa Direita", controllerCoxaDireita),
-                const SizedBox(width: 15),
-                ajusteMedida("Coxa Esquerda", controllerCoxaEsquerda),
+                    translate('page-medida.campo.panturrilha-direita'), controllerPanturrilhaDireita),
               ],
             ),
             const SizedBox(height: 15),
@@ -325,10 +318,22 @@ class _MedidaPageState extends State<MedidaPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ajusteMedida(
-                    "Coxa Proximal Direita", controllerCoxaProximalDireita),
+                    translate('page-medida.campo.panturrilha-esquerda'), controllerPanturrilhaEsquerda),
+                const SizedBox(width: 15),
+                ajusteMedida(translate('page-medida.campo.panturrilha-esquerda'), controllerCoxaDireita),
+                const SizedBox(width: 15),
+                ajusteMedida(translate('page-medida.campo.coxa-esquerda'), controllerCoxaEsquerda),
+              ],
+            ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ajusteMedida(
+                    translate('page-medida.campo.coxa-proximal-direita'), controllerCoxaProximalDireita),
                 const SizedBox(width: 15),
                 ajusteMedida(
-                    "Coxa Proximal Esquerda", controllerCoxaProximalEsquerda),
+                    translate('page-medida.campo.coxa-proximal-esquerda'), controllerCoxaProximalEsquerda),
               ],
             )
           ],
@@ -340,7 +345,7 @@ class _MedidaPageState extends State<MedidaPage> {
   AlertDialog adicionarMedidasAlert() {
     setControllers();
     return AlertDialog(
-      title: const Center(child: Text('Adicionar Medida')),
+      title: Center(child: Text(translate('page-medida.adicionar'))),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * .5,
         child: medidaConfig(),
@@ -348,7 +353,7 @@ class _MedidaPageState extends State<MedidaPage> {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: const Text('Cancel'),
+          child: Text(translate('page-medida.botao.cancelar')),
         ),
         TextButton(
           onPressed: () async => {
@@ -358,7 +363,7 @@ class _MedidaPageState extends State<MedidaPage> {
                 Navigator.pop(context, 'Vincular'),
               }
           },
-          child: const Text('Vincular'),
+          child: Text(translate('page-medida.botao.vincular')),
         ),
       ],
     );
@@ -367,7 +372,7 @@ class _MedidaPageState extends State<MedidaPage> {
   AlertDialog atualizarMedidasAlert(MedidaViewModel medida) {
     setControllers(viewModel: medida);
     return AlertDialog(
-      title: const Center(child: Text('Atualizar Medida')),
+      title: Center(child: Text(translate('page-medida.atualizar'))),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * .5,
         child: medidaConfig(),
@@ -385,7 +390,7 @@ class _MedidaPageState extends State<MedidaPage> {
                 Navigator.pop(context, 'Atualizar'),
               }
           },
-          child: const Text('Atualizar'),
+          child: Text(translate('page-medida.botao.atualizar')),
         ),
       ],
     );
@@ -403,7 +408,7 @@ class _MedidaPageState extends State<MedidaPage> {
           context: context,
           builder: (BuildContext context) => adicionarMedidasAlert(),
         ),
-        child: const Text("Adicionar Medida"),
+        child: Text(translate('page-medida.adicionar')),
       ),
     );
   }
@@ -423,7 +428,7 @@ class _MedidaPageState extends State<MedidaPage> {
             arguments: {'paciente-id': getPacienteId()},
           )
         },
-        child: const Text("Voltar"),
+        child: Text(translate('page-medida.botao.voltar')),
       ),
     );
   }

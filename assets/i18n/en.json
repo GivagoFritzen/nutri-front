@@ -1,0 +1,117 @@
+{
+  "login": {
+    "email": "Email",
+    "logar": "Logar",
+    "senha": "Password"
+  },
+  "perfil": {
+    "botao": {
+      "atualizar": "Update"
+    },
+    "campo": {
+      "nome": "Name",
+      "sobrenome": "Last Name",
+      "email": "Email",
+      "cidade": "City",
+      "telefone": "Telephone",
+      "nova-senha": "New Password",
+      "antiga-senha": "Old Password"
+    },
+    "sexo": {
+      "homem": "Man",
+      "mulher": "Woman"
+    }
+  },
+  "page-paciente": {
+    "botao": {
+      "atualizar": "Update",
+      "medidas": "Measurements",
+      "planos-alimentares": "Food Plans",
+      "salvar": "Save"
+    }
+  },
+  "page-pacientes": {
+    "adicionar": {
+      "texto": "Add Patient",
+      "texto-campo": "Patient Email"
+    },
+    "botao": {
+      "cancelar": "Cancel",
+      "vincular": "Attach"
+    },
+    "cabecalho": {
+      "nome": "Name",
+      "sobrenome": "Last Name",
+      "email": "Email",
+      "telefone": "Telephone"
+    },
+    "icones": {
+      "editar": "Edit",
+      "excluir": "Delete"
+    }
+  },
+  "page-medida": {
+    "adicionar": "Add Measure",
+    "atualizar": "Update Measure",
+    "botao": {
+      "atualizar": "Update",
+      "cancelar": "Cancel",
+      "vincular": "Attach",
+      "voltar": "Return"
+    },
+    "campo": {
+      "peso-atual": "Current weight",
+      "peso-ideal": "Ideal weight",
+      "altura": "Height",
+      "braco-relaxado-direito": "Right Relaxed Arm",
+      "braco-relaxado-esquerdo": "Left Relaxed Arm",
+      "braco-contraido-direito": "Right Contracted Arm",
+      "braco-contraido-esquerdo": "Left Tightened arm",
+      "antebraco-direito": "Right Forearm",
+      "antebraco-esquerdo": "Left Foerarm",
+      "punho-direito": "Right Fist",
+      "punho-esquerdo": "Right Fist",
+      "pescoco": "Neck",
+      "ombro": "Shoulder",
+      "peitoral": "Pectoral",
+      "cintura": "Waist",
+      "abdomen": "Abdomen",
+      "quadril": "Hip",
+      "panturrilha-direita": "Right Calf",
+      "panturrilha-esquerda": "Left Calf",
+      "coxa-direita": "Right Thigh",
+      "coxa-esquerda": "Left Thigh",
+      "coxa-proximal-direita": "Right Proximal Thigh",
+      "coxa-proximal-esquerda": "Left Proximal Thigh"
+    }
+  },
+  "page-planos-alimentares": {
+    "adicionar": "Add Meal Plan",
+    "atualizar": "Update Meal Plan",
+    "botao": {
+      "adicionar-refeicao": "Add Meal",
+      "adicionar-horario": "Add Time",
+      "cancelar": "Cancel",
+      "ok": "Ok",
+      "salvar": "Save",
+      "vincular": "Attach",
+      "voltar": "Return"
+    },
+    "refeicao": {
+      "titulo": "Meal",
+      "descricao": "Description",
+      "descricao-alimento": "Food",
+      "quantidade": "Quantity"
+    }
+  },
+  "top_bar": {
+    "idioma": "Language",
+    "pesquisa": "Search..."
+  },
+  "left_bar": {
+    "adicionar-paciente": "Add Patient",
+    "perfil": "Profile",
+    "pacientes": "Patients",
+    "sair": "Logout"
+  }
+}

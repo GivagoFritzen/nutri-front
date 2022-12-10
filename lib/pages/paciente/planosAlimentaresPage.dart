@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:intl/intl.dart';
 import 'package:nutri/components/dropdownfield/dropdownMedidaCaseira.dart';
 import 'package:nutri/components/dropdownfield/dropdownfield.dart';
@@ -91,7 +92,8 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
       children: [
         Expanded(
           child: Dropdownfield(
-            labelText: "Alimento",
+            labelText: translate(
+                'page-planos-alimentares.refeicao.descricao-alimento'),
             textEditingController: nomeEditingController,
             updateValue: (String text) {
               alimento.nome = text;
@@ -117,7 +119,9 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
               decimal: false,
               signed: true,
             ),
-            decoration: const InputDecoration(labelText: 'Quantidade'),
+            decoration: InputDecoration(
+                labelText:
+                    translate('page-planos-alimentares.refeicao.quantidade')),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
         ),
@@ -156,7 +160,8 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
     }
 
     return AlertDialog(
-      title: const Center(child: Text('Refeicao')),
+      title: Center(
+          child: Text(translate('page-planos-alimentares.refeicao.titulo'))),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * .5,
         child: SizedBox(
@@ -180,17 +185,19 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
                           },
                           controller: textEditingController,
                           cursorColor: Colors.black,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Descrição",
-                            hintStyle: TextStyle(color: Colors.black),
+                            hintText: translate(
+                                'page-planos-alimentares.refeicao.descricao'),
+                            hintStyle: const TextStyle(color: Colors.black),
                           ),
                           maxLength: 25,
                         ),
                       ),
                       IconButton(
                         icon: const Icon(Icons.access_time),
-                        tooltip: 'Adicionar Horário',
+                        tooltip: translate(
+                            'page-planos-alimentares.botao.adicionar-horario'),
                         onPressed: () {
                           _selectTime(context, setState, refeicoes[index]);
                         },
@@ -218,7 +225,8 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
               alimentos.add(AlimentoViewModel());
             }),
           },
-          child: const Text('Adicionar Alimentação'),
+          child: Text(
+              translate('page-planos-alimentares.botao.adicionar-refeicao')),
         ),
         TextButton(
           onPressed: () async => {
@@ -227,7 +235,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
             }),
             Navigator.pop(context, 'Cancel'),
           },
-          child: const Text('Cancel'),
+          child: Text(translate('page-planos-alimentares.botao.cancelar')),
         ),
         TextButton(
           onPressed: () async => {
@@ -307,8 +315,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
 
   Future<bool> _vincular() async {
     var viewModel = PacientePlanoAlimentarViewModel(
-        pacienteId: getPacienteId(),
-        refeicoes: refeicoes);
+        pacienteId: getPacienteId(), refeicoes: refeicoes);
 
     var response = await pacienteService.adicionarPlanoAlimentar(
         pacienteViewModel: viewModel,
@@ -341,7 +348,8 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
   AlertDialog atualizarPlanoAlimentarAlert(
       context, setState, PlanoAlimentarViewModel planoAlimentar) {
     return AlertDialog(
-      title: const Center(child: Text('Atualizar Plano Alimentar')),
+      title:
+          Center(child: Text(translate('page-planos-alimentares.atualizar'))),
       content: planoAlimentarDialog(context, setState),
       actions: <Widget>[
         TextButton(
@@ -350,14 +358,15 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
               refeicoes.add(RefeicaoViewModel.empty());
             }),
           },
-          child: const Text('Adicionar Refeição'),
+          child: Text(
+              translate('page-planos-alimentares.botao.adicionar-refeicao')),
         ),
         TextButton(
           onPressed: () => {
             refeicoes = refeicoesTemp,
             Navigator.pop(context, 'Cancel'),
           },
-          child: const Text('Cancel'),
+          child: Text(translate('page-planos-alimentares.botao.cancelar')),
         ),
         TextButton(
           onPressed: () async => {
@@ -371,7 +380,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
                 Navigator.pop(context, 'Salvar'),
               }
           },
-          child: const Text('Salvar'),
+          child: Text(translate('page-planos-alimentares.botao.salvar')),
         ),
       ],
     );
@@ -379,7 +388,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
 
   AlertDialog adicionarPlanoAlimentarAlert(context, setState) {
     return AlertDialog(
-      title: const Center(child: Text('Adicionar Plano Alimentar')),
+      title: Center(child: Text(translate('page-planos-alimentares.adicionar'))),
       content: planoAlimentarDialog(context, setState),
       actions: <Widget>[
         TextButton(
@@ -388,13 +397,14 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
               refeicoes.add(RefeicaoViewModel.empty());
             }),
           },
-          child: const Text('Adicionar Refeição'),
+          child: Text(
+              translate('page-planos-alimentares.botao.adicionar-refeicao')),
         ),
         TextButton(
           onPressed: () => {
             Navigator.pop(context, 'Cancel'),
           },
-          child: const Text('Cancel'),
+          child: Text(translate('page-planos-alimentares.botao.cancelar')),
         ),
         TextButton(
           onPressed: () async => {
@@ -408,7 +418,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
                 Navigator.pop(context, 'Vincular'),
               }
           },
-          child: const Text('Vincular'),
+          child: Text(translate('page-planos-alimentares.botao.vincular')),
         ),
       ],
     );
@@ -433,7 +443,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
             refeicoes = <RefeicaoViewModel>[];
           });
         }),
-        child: const Text("Adicionar Plano Alimentar"),
+        child: Text(translate('page-planos-alimentares.adicionar')),
       ),
     );
   }
@@ -453,7 +463,7 @@ class _PlanosAlimentaresPageState extends State<PlanosAlimentaresPage> {
             arguments: {'paciente-id': getPacienteId()},
           )
         },
-        child: const Text("Voltar"),
+        child: Text(translate('page-planos-alimentares.botao.voltar')),
       ),
     );
   }

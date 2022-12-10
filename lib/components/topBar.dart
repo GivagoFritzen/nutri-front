@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:nutri/components/dropdownfield/dropdownfieldLanguage.dart';
 import 'package:nutri/services/localStorageService.dart';
 import 'package:nutri/utils/colors.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +53,10 @@ class _TopBarState extends State<TopBar> {
           Expanded(
             child: _searchBar(),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: DropdownfieldLanguage(),
+          ),
           Text(
             context.watch<LocalStorageService>().local['name'] as String,
             style: const TextStyle(color: Colors.white, fontSize: 20),
@@ -59,20 +65,6 @@ class _TopBarState extends State<TopBar> {
         ],
       ),
     );
-
-    /*AppBar(
-      backgroundColor: ColorUtil.green,
-      toolbarHeight: TopBar.GetHeightSize(),
-      title: Row(children: [
-        const Text("Logo"),
-        Expanded(
-          child: _searchBar(),
-        ),
-        Text(context.watch<LocalStorageService>().local['name'] as String)
-      ]),
-      automaticallyImplyLeading: false,
-    );
-    */
   }
 
   void _searchPressed() {
@@ -99,7 +91,7 @@ class _TopBarState extends State<TopBar> {
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: 'Search....',
+          hintText: translate('top_bar.pesquisa'),
           hintStyle: const TextStyle(color: Colors.white),
           prefixIcon: IconButton(
             onPressed: _searchPressed,

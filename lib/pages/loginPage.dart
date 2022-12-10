@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:nutri/services/erroService.dart';
 import 'package:nutri/services/localStorageService.dart';
@@ -59,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
         localStorageService.setString(
             'refreshToken', response.body!.refreshToken);
 
-        Map<String, dynamic> decodedToken = JwtDecoder.decode(response.body!.token);
+        Map<String, dynamic> decodedToken =
+            JwtDecoder.decode(response.body!.token);
         localStorageService.setString('name', decodedToken["unique_name"]);
         localStorageService.setString('id', decodedToken["primarysid"]);
 
@@ -98,12 +100,11 @@ class _LoginPageState extends State<LoginPage> {
       margin: const EdgeInsets.only(top: 50),
       child: TextButton(
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(ColorUtil.blue),
+          backgroundColor: MaterialStateProperty.all<Color>(ColorUtil.blue),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white70),
         ),
         onPressed: _logar,
-        child: const Text('Logar'),
+        child: Text(translate('login.logar')),
       ),
     );
   }
@@ -130,8 +131,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    formField("Email", _controllerEmail, false),
-                    formField("Senha", _controllerSenha, true),
+                    formField(
+                        translate('login.logar'), _controllerEmail, false),
+                    formField(
+                        translate('login.senha'), _controllerSenha, true),
                     formButton(),
                   ],
                 ),

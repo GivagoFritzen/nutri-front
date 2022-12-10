@@ -1,0 +1,117 @@
+{
+  "login": {
+    "email": "Email",
+    "logar": "Logar",
+    "senha": "Senha"
+  },
+  "perfil": {
+    "botao": {
+      "atualizar": "Atualizar"
+    },
+    "campo": {
+      "nome": "Nome",
+      "sobrenome": "Sobrenome",
+      "email": "Email",
+      "cidade": "Cidade",
+      "telefone": "Telefone",
+      "nova-senha": "Nova Senha",
+      "antiga-senha": "Antiga Senha"
+    },
+    "sexo": {
+      "homem": "Homem",
+      "mulher": "Mulher"
+    }
+  },
+  "page-paciente": {
+    "botao": {
+      "atualizar": "Atualizar",
+      "medidas": "Medidas",
+      "planos-alimentares": "Planos Alimentares",
+      "salvar": "Salvar"
+    }
+  },
+  "page-pacientes": {
+    "adicionar": {
+      "texto": "Adicionar Paciente",
+      "texto-campo": "Paciente Email"
+    },
+    "botao": {
+      "cancelar": "Cancelar",
+      "vincular": "Vincular"
+    },
+    "cabecalho": {
+      "nome": "Nome",
+      "sobrenome": "Sobrenome",
+      "email": "Email",
+      "telefone": "Telefone"
+    },
+    "icones": {
+      "editar": "Editar",
+      "excluir": "Excluir"
+    }
+  },
+  "page-medida": {
+    "adicionar": "Adicionar Medida",
+    "atualizar": "Atualizar Medida",
+    "botao": {
+      "atualizar": "Atualizar",
+      "cancelar": "Cancelar",
+      "vincular": "Vincular",
+      "voltar": "Voltar"
+    },
+    "campo": {
+      "peso-atual": "Peso Atual",
+      "peso-ideal": "Peso Ideal",
+      "altura": "Altura",
+      "braco-relaxado-direito": "Braço Relaxado Direito",
+      "braco-relaxado-esquerdo": "Braço Relaxado ESquerdo",
+      "braco-contraido-direito": "Braço Contraido Direito",
+      "braco-contraido-esquerdo": "Braço Contraido Esquerdo",
+      "antebraco-direito": "Antebraço Direito",
+      "antebraco-esquerdo": "Antebraço Esquerdo",
+      "punho-direito": "Punho Direito",
+      "punho-esquerdo": "Punho Esquerdo",
+      "pescoco": "Pescoço",
+      "ombro": "Ombro",
+      "peitoral": "Peitoral",
+      "cintura": "Cintura",
+      "abdomen": "Abdomen",
+      "quadril": "Quadril",
+      "panturrilha-direita": "Panturrilha Direita",
+      "panturrilha-esquerda": "Panturrilha Esquerda",
+      "coxa-direita": "Coxa Direita",
+      "coxa-esquerda": "Coxa Esquerda",
+      "coxa-proximal-direita": "Coxa Proximal Direita",
+      "coxa-proximal-esquerda": "Coxa Proximal Esquerda"
+    }
+  },
+  "page-planos-alimentares": {
+    "adicionar": "Adicionar Plano Alimentar",
+    "atualizar": "Atualizar Plano Alimentar",
+    "botao": {
+      "adicionar-refeicao": "Adicionar Refeição",
+      "adicionar-horario": "Adicionar Horário",
+      "cancelar": "Cancelar",
+      "ok": "Ok",
+      "salvar": "Salvar",
+      "vincular": "Vincular",
+      "voltar": "Voltar"
+    },
+    "refeicao": {
+      "titulo": "Refeição",
+      "descricao": "Descrição",
+      "descricao-alimento": "Alimento",
+      "quantidade": "Quantidade"
+    }
+  },
+  "top_bar": {
+    "idioma": "Idioma",
+    "pesquisa": "Pesquisa..."
+  },
+  "left_bar": {
+    "adicionar-paciente": "Adicionar Paciente",
+    "perfil": "Perfil",
+    "pacientes": "Pacientes",
+    "sair": "Sair"
+  }
+}

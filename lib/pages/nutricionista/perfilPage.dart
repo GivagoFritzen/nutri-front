@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:nutri/components/leftBar.dart';
 import 'package:nutri/components/topBar.dart';
 import 'package:nutri/models/nutricionista/nutricionistaAtualizarViewModel.dart';
@@ -28,7 +29,7 @@ class _PerfilPageState extends State<PerfilPage> {
   final TextEditingController _NovaSenhaeController = TextEditingController();
   final TextEditingController _AntigaSenhaController = TextEditingController();
 
-  String genreValue = 'Homem';
+  String genreValue =  translate('perfil.sexo.homem');
   double fontSize = 25;
 
   @override
@@ -58,7 +59,9 @@ class _PerfilPageState extends State<PerfilPage> {
       localStorageService.setString('name', response.body!.nome!);
 
       setState(() {
-        genreValue = response.body!.sexo == true ? "Homem" : "Mulher";
+        genreValue = response.body!.sexo == true
+            ? translate('perfil.sexo.homem')
+            : translate('perfil.sexi.mulher');
       });
 
       localStorageService.readLocale();
@@ -88,8 +91,10 @@ class _PerfilPageState extends State<PerfilPage> {
           genreValue = newValue!;
         });
       },
-      items: <String>['Homem', 'Mulher']
-          .map<DropdownMenuItem<String>>((String value) {
+      items: <String>[
+        translate('perfil.sexo.homem'),
+        translate('perfil.sexo.mulher')
+      ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
@@ -135,7 +140,7 @@ class _PerfilPageState extends State<PerfilPage> {
           nutricionistaAtualizarViewModel.telefone =
               _TelefoneController.value.text;
           nutricionistaAtualizarViewModel.sexo =
-              genreValue == "Homem" ? true : false;
+              genreValue == translate('perfil.sexo.homem') ? true : false;
           nutricionistaAtualizarViewModel.antigaSenha =
               _AntigaSenhaController.value.text;
           nutricionistaAtualizarViewModel.novaSenha =
@@ -152,7 +157,7 @@ class _PerfilPageState extends State<PerfilPage> {
           }
         },
         child: Text(
-          "Atualizar",
+          translate('perfil.botao.atualizar'),
           style: TextStyle(fontSize: fontSize),
         ),
       ),
@@ -165,18 +170,25 @@ class _PerfilPageState extends State<PerfilPage> {
       children: [
         Row(
           children: [
-            Expanded(child: perfilField(_NomeController, "Nome")),
-            Expanded(child: perfilField(_SobrenomeController, "Sobrenome")),
+            Expanded(
+                child: perfilField(
+                    _NomeController, translate('perfil.campo.nome'))),
+            Expanded(
+                child: perfilField(
+                    _SobrenomeController, translate('perfil.campo.sobrenome'))),
           ],
         ),
-        perfilField(_EmailController, "Email"),
-        perfilField(_CidadeController, "Cidade"),
-        perfilField(_TelefoneController, "Telefone"),
+        perfilField(_EmailController, translate('perfil.campo.email')),
+        perfilField(_CidadeController, translate('perfil.campo.cidade')),
+        perfilField(_TelefoneController, translate('perfil.campo.telefone')),
         Row(
           children: [
-            Expanded(child: perfilField(_NovaSenhaeController, "Nova Senha")),
             Expanded(
-                child: perfilField(_AntigaSenhaController, "Antiga Senha")),
+                child: perfilField(_NovaSenhaeController,
+                    translate('perfil.campo.nova-senha'))),
+            Expanded(
+                child: perfilField(_AntigaSenhaController,
+                    translate('perfil.campo.antiga-senha'))),
           ],
         ),
         Row(

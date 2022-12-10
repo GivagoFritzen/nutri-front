@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nutri/services/localStorageService.dart';
 import 'package:nutri/utils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 
 class LeftBar extends StatelessWidget {
-  //LeftBar({Key? key}) : super(key: key);
-
   LeftBar({super.key, context}) {
     localStorageService =
         Provider.of<LocalStorageService>(context, listen: false);
@@ -28,7 +27,7 @@ class LeftBar extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.all(10),
               child: Tooltip(
-                message: 'Perfil',
+                message: translate('left_bar.perfil'),
                 child: IconButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/nutri/perfil');
@@ -38,7 +37,7 @@ class LeftBar extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.all(10),
               child: Tooltip(
-                message: 'Pacientes',
+                message: translate('left_bar.pacientes'),
                 child: IconButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/nutri/pacientes');
@@ -48,7 +47,7 @@ class LeftBar extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.all(10),
               child: Tooltip(
-                message: 'Adicionar Paciente',
+                message: translate('left_bar.adicionar-paciente'),
                 child: IconButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/paciente');
@@ -58,7 +57,7 @@ class LeftBar extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.all(10),
               child: Tooltip(
-                message: 'Sair',
+                message: translate('left_bar.sair'),
                 child: IconButton(
                     onPressed: () {
                       localStorageService.clean();

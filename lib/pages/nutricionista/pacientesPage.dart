@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:nutri/components/leftBar.dart';
 import 'package:nutri/components/topBar.dart';
 import 'package:nutri/models/login/loginTokenViewModel.dart';
@@ -78,10 +79,10 @@ class _PacientesPageState extends State<PacientesPage> {
   TableRow cabecalho() {
     return TableRow(
       children: [
-        pacienteInfo("Nome"),
-        pacienteInfo("Sobrenome"),
-        pacienteInfo("Email"),
-        pacienteInfo("Telefone"),
+        pacienteInfo(translate('page-pacientes.cabecalho.nome')),
+        pacienteInfo(translate('page-pacientes.cabecalho.sobrenome')),
+        pacienteInfo(translate('page-pacientes.cabecalho.email')),
+        pacienteInfo(translate('page-pacientes.cabecalho.telefone')),
         const SizedBox(),
         const SizedBox(),
       ],
@@ -103,24 +104,30 @@ class _PacientesPageState extends State<PacientesPage> {
               arguments: {'paciente-id': paciente.id},
             )
           },
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: Icon(
-                Icons.person_add_alt_1_outlined,
-                color: Colors.black87,
+              child: Tooltip(
+                message: translate('page-pacientes.icones.editar'),
+                child: const Icon(
+                  Icons.person_add_alt_1_outlined,
+                  color: Colors.black87,
+                ),
               ),
             ),
           ),
         ),
         TextButton(
           onPressed: () async => {_desvincular(paciente.email!)},
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: Icon(
-                IconData(0xe1b9, fontFamily: 'MaterialIcons'),
-                color: Colors.black87,
+              child: Tooltip(
+                message: translate('page-pacientes.icones.excluir'),
+                child: const Icon(
+                  IconData(0xe1b9, fontFamily: 'MaterialIcons'),
+                  color: Colors.black87,
+                ),
               ),
             ),
           ),
@@ -154,13 +161,13 @@ class _PacientesPageState extends State<PacientesPage> {
       onPressed: () => showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text('Adicionar Paciente'),
+          title: Text(translate('page-pacientes.adicionar.texto')),
           content: TextFormField(
             controller: _controllerEmail,
             cursorColor: Colors.black,
-            decoration: const InputDecoration(
-              hintText: "Paciente Email",
-              focusedBorder: UnderlineInputBorder(
+            decoration: InputDecoration(
+              hintText: translate('page-pacientes.adicionar.texto-campo'),
+              focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.black),
               ),
             ),
@@ -168,7 +175,7 @@ class _PacientesPageState extends State<PacientesPage> {
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Cancel'),
+              child: Text(translate('page-pacientes.botao.cancelar')),
             ),
             TextButton(
               onPressed: () async => {
@@ -178,14 +185,14 @@ class _PacientesPageState extends State<PacientesPage> {
                     Navigator.pop(context, 'Vincular'),
                   }
               },
-              child: const Text('Vincular'),
+              child: Text(translate('page-pacientes.botao.vincular')),
             ),
           ],
         ),
       ).then((exit) {
         _controllerEmail.text = "";
       }),
-      child: const Text("Vincular"),
+      child: Text(translate('page-pacientes.botao.vincular')),
     );
   }
 

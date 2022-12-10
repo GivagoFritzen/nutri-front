@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:nutri/components/leftBar.dart';
 import 'package:nutri/components/topBar.dart';
 import 'package:nutri/models/paciente/pacienteAdicionarViewModel.dart';
@@ -21,7 +22,7 @@ class _PacientePageState extends State<PacientePage> {
   late PacienteService pacienteService;
   late LocalStorageService localStorageService;
 
-  String genreValue = 'Homem';
+  String genreValue = translate('perfil.sexo.homem');
   late PacienteViewModel pacienteViewModel;
 
   final TextEditingController _controllerNome = TextEditingController();
@@ -54,7 +55,9 @@ class _PacientePageState extends State<PacientePage> {
     if (response.error == null) {
       setState(() {
         pacienteViewModel = response.body!;
-        genreValue = response.body!.sexo == true ? "Homem" : "Mulher";
+        genreValue = response.body!.sexo == true
+            ? translate('perfil.sexo.homem')
+            : translate('perfil.sexo.mulher');
       });
 
       _controllerNome.text = pacienteViewModel.nome!;
@@ -80,7 +83,7 @@ class _PacientePageState extends State<PacientePage> {
             arguments: {'paciente-id': getPacienteId()},
           );
         },
-        child: Text("Medidas"),
+        child: Text(translate('page-paciente.botao.medidas')),
       ),
     );
   }
@@ -100,7 +103,7 @@ class _PacientePageState extends State<PacientePage> {
             arguments: {'paciente-id': getPacienteId()},
           );
         },
-        child: Text("Planos Alimentares"),
+        child: Text(translate('page-paciente.botao.planos-alimentares')),
       ),
     );
   }
@@ -120,7 +123,8 @@ class _PacientePageState extends State<PacientePage> {
               email: _controllerEmail.text,
               cidade: _controllerCidade.text,
               telefone: _controllerTelefone.text,
-              sexo: genreValue == "Homem" ? true : false);
+              sexo:
+                  genreValue == translate('perfil.sexo.homem') ? true : false);
 
           var response = await pacienteService.adicionar(
             pacienteAdicionarViewModel: pacienteAdicionarViewModel,
@@ -134,7 +138,7 @@ class _PacientePageState extends State<PacientePage> {
             );
           }
         },
-        child: Text("Salvar"),
+        child: Text(translate('page-paciente.botao.salvar')),
       ),
     );
   }
@@ -154,7 +158,7 @@ class _PacientePageState extends State<PacientePage> {
             email: _controllerEmail.text,
             cidade: _controllerCidade.text,
             telefone: _controllerTelefone.text,
-            sexo: genreValue == "Homem" ? true : false,
+            sexo: genreValue == translate('perfil.sexo.homem') ? true : false,
             id: pacienteViewModel!.id!,
           );
 
@@ -180,7 +184,7 @@ class _PacientePageState extends State<PacientePage> {
             '/nutri/pacientes',
           );
         },
-        child: Text("Atualizar"),
+        child: Text(translate('page-paciente.botao.atualizar')),
       ),
     );
   }
@@ -221,13 +225,18 @@ class _PacientePageState extends State<PacientePage> {
           children: [
             Row(
               children: [
-                Expanded(child: pacienteRow("Nome", _controllerNome)),
-                Expanded(child: pacienteRow("Sobrenome", _controllerSobrenome)),
+                Expanded(
+                    child: pacienteRow(
+                        translate('perfil.campo.nome'), _controllerNome)),
+                Expanded(
+                    child: pacienteRow(translate('perfil.campo.sobrenome'),
+                        _controllerSobrenome)),
               ],
             ),
-            pacienteRow("Email", _controllerEmail),
-            pacienteRow("Cidade", _controllerCidade),
-            pacienteRow("Telefone", _controllerTelefone),
+            pacienteRow(translate('perfil.campo.email'), _controllerEmail),
+            pacienteRow(translate('perfil.campo.cidade'), _controllerCidade),
+            pacienteRow(
+                translate('perfil.campo.telefone'), _controllerTelefone),
             selectGenre(),
             SizedBox(),
             SizedBox(),
@@ -256,8 +265,10 @@ class _PacientePageState extends State<PacientePage> {
           genreValue = newValue!;
         });
       },
-      items: <String>['Homem', 'Mulher']
-          .map<DropdownMenuItem<String>>((String value) {
+      items: <String>[
+        translate('perfil.sexo.homem'),
+        translate('perfil.sexo.mulher')
+      ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
