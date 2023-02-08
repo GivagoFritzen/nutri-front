@@ -12,26 +12,26 @@ class ErrorService {
       ErrorViewModel errorViewModel = ErrorViewModel.fromJsonFactory(d);
 
       if (errorViewModel.error != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          Alert.message(errorViewModel.error.toString()),
-        );
+          ScaffoldMessenger.of(context).showSnackBar(
+            Alert.message(errorViewModel.error.toString()),
+          );
 
-        return true;
-      } else if (errorViewModel.errors != null) {
-        if (errorViewModel.errors.containsKey("Mensagens")) {
-          for (var mensagem in errorViewModel.errors["Mensagens"]) {
+          return true;
+        } else if (errorViewModel.errors != null) {
+          if (errorViewModel.errors.containsKey("Mensagens")) {
+            for (var mensagem in errorViewModel.errors["Mensagens"]) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                Alert.message(mensagem),
+              );
+            }
+          } else {
+            Map<String, dynamic> erros = errorViewModel.errors;
+            var erroGenerico = erros.values.toList().first.first;
+
             ScaffoldMessenger.of(context).showSnackBar(
-              Alert.message(mensagem),
+              Alert.message(erroGenerico.toString()),
             );
           }
-        } else {
-          Map<String, dynamic> erros = errorViewModel.errors;
-          var erroGenerico = erros.values.toList().first.first;
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            Alert.message(erroGenerico.toString()),
-          );
-        }
 
         return true;
       }
